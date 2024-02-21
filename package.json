@@ -1,0 +1,19 @@
+{
+	"name": "agileproject",
+	"version": "1.0.0",
+	"description": "Construct a presurgical epilepsy evaluation system by pinpointing sources of brain activity using EEG data and rendering a 3D visualization of a brain. Build a user friendly application that will be convenient for surgeons to use and aid in their decision making. ",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/DanPartika/AgileProject.git"
+	},
+	"author": "Rohan Balani, Daniel Partika, Kyle Boberg, Charles Canata, Susan McAloon, Daniel Kang",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/DanPartika/AgileProject/issues"
+	},
+	"homepage": "https://github.com/DanPartika/AgileProject#readme"
+}
