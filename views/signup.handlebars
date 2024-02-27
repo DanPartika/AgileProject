@@ -1,0 +1,32 @@
+<main>
+    <h1>{{title}}</h1>
+
+    <form method="POST" id="registration-form">
+        <label for="nameInput">Name:</label>
+        <input type="text" id="nameInput" name="nameInput">
+        <br>
+
+        <label for="emailAddressInput">Email:</label>
+        <input type="email" id="emailAddressInput" name="emailAddressInput">
+        <br>
+
+        <label for="passwordInput">Password:</label>
+        <input type="password" id="passwordInput" name="passwordInput">
+        <br>
+
+        <label for="confirmPasswordInput">Confirm Password:</label>
+        <input type="password" id="confirmPasswordInput" name="confirmPasswordInput">
+        <br>
+
+        <input type="submit" id="submit" value="Register">
+    </form>
+
+    <p id="serverError" class="error">{{error}}</p>
+
+    <div id="errorList">
+    </div>
+
+    <a href="/login">Already have an account? Click here to log-in</a>
+
+
+</main>

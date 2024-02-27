@@ -3,8 +3,10 @@
 	"version": "1.0.0",
 	"description": "Construct a presurgical epilepsy evaluation system by pinpointing sources of brain activity using EEG data and rendering a 3D visualization of a brain. Build a user friendly application that will be convenient for surgeons to use and aid in their decision making. ",
 	"main": "app.js",
+	"type": "module",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node app.js"
 	},
 	"repository": {
 		"type": "git",
@@ -15,5 +17,15 @@
 	"bugs": {
 		"url": "https://github.com/DanPartika/AgileProject/issues"
 	},
-	"homepage": "https://github.com/DanPartika/AgileProject#readme"
+	"homepage": "https://github.com/DanPartika/AgileProject#readme",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"exphbs": "^1.2.0",
+		"express": "^4.18.2",
+		"express-handlebars": "^7.1.2",
+		"express-session": "^1.18.0",
+		"firebase": "^10.8.0",
+		"path": "^0.12.7",
+		"url": "^0.11.3"
+	}
 }
