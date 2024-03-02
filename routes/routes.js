@@ -5,6 +5,10 @@ import { doCreateUserWithEmailAndPassword, doSignOut, dosignInWithEmailAndPasswo
 
 const router = Router()
 
+router.route("/").get(async (req, res) => {
+    res.redirect("login");
+  });
+
 router.route("/login").get(async (req, res) => { 
     //make sure no cookie
     if(req.session.loggedIn){
