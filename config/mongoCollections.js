@@ -1,0 +1,1 @@
+const dbConnection = require('./mongoConnection');
