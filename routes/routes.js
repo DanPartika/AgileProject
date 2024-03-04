@@ -121,4 +121,16 @@ router.route("/home").get(async (req, res) => {
     return res.render("home", {title: "Home", error: "", name: req.session.user.name})
 })
 
+router.route("/wireframe").get(async (req, res) => { 
+
+    //make sure  cookie
+    if(!req.session.loggedIn){
+        return res.redirect('/login')
+    }
+
+    console.log(req.session.user)
+    //return wireframe
+    return res.render("wireframe", {title: "Home", error: ""})
+})
+
 export default router
