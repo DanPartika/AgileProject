@@ -127,7 +127,6 @@ router.route("/wireframe").get(async (req, res) => {
     if(!req.session.loggedIn){
         return res.redirect('/login')
     }
-
     console.log(req.session.user)
     //return wireframe
     return res.render("wireframe", {title: "Home", error: ""})
