@@ -81,7 +81,7 @@ router.route("/login").post(async (req, res) => {
     try{
         user = await dosignInWithEmailAndPassword(userInfo.emailAddressInput, userInfo.passwordInput)
     }catch(e){
-        return res.status(400).render("login", {title: "Login", error: String(e)})
+        return res.status(404).render("login", {title: "Login", error: String(e)})
     }
 
     //set cookie
