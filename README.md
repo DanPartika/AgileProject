@@ -20,12 +20,12 @@ npm start
 
 ## Authors
 
-Daniel Partika
-Rohan Balani
-Kyle Boberg
-Susan McAloon
-Charles Canata
-Daniel Kang
+ * Daniel Partika
+ * Rohan Balani
+ * Kyle Boberg
+ * Susan McAloon
+ * Charles Canata
+ * Daniel Kang
 
 ## Version History
 
