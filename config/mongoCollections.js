@@ -1,1 +1,1 @@
-const dbConnection = require('./mongoConnection');
+const { getDB } = require('./mongoConnection')
