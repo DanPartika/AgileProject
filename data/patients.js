@@ -27,7 +27,7 @@ export const createPatient = async (
   let newPatient = {
     firstName,
     lastName,
-    date_of_birth,
+    date_of_birth: `${date_of_birth.toLocaleDateString()}`,
     race,
     sex,
     medical_history, 
@@ -37,8 +37,7 @@ export const createPatient = async (
   let createInfo = await patientCollection.insertOne(newPatient);
   if(!createInfo.acknowledged || !createInfo.insertedId){throw "could not add user"}
 
-  createInfo._id = createInfo._id.toString()
-  return createInfo;
+  return createInfo.insertedId.toString();
 
 };
 
@@ -75,7 +74,7 @@ export const editPatientData= async (
     let updatePatient = {
     firstName,
     lastName,
-    date_of_birth,
+    date_of_birth: `${date_of_birth.toLocaleDateString()}`,
     race,
     sex,
     medical_history, 
@@ -91,6 +90,32 @@ export const editPatientData= async (
 
 };
 
-// await connectToMongoDB()
-// await createPatient("Kyle", "Boberg", "1/23/2013", "white", "M", "lots of history", "so many medications")
-// await editPatientData("65f8dd398346b2df5287e970", "Kyle", "Boberg2", "1/25/2013", "white", "M", "lots of history", "so many medication 2")
+
+export async function getPatientById(id){
+  let patientCollection = await patients();
+  let patient = await patientCollection.findOne({_id: new ObjectId(id)})
+  if(!patient){
+    throw "Could not find patient"
+  }
+  patient._id = patient._id.toString()
+  return patient
+}
+
+
+export async function getPatientsByBirthdate(birthdate){
+  let startDate = new Date(birthdate)
+
+  console.log(startDate.toLocaleDateString())
+
+  let patientCollection = await patients();
+  let patientList = await patientCollection.find({date_of_birth: startDate.toLocaleDateString()})
+
+  return patientList.toArray()
+}
+
+
+await connectToMongoDB()
+await createPatient("Kyle", "Boberg", "1/23/2013", "white", "M", "lots of history", "so many medications")
+//await editPatientData("65f8dd398346b2df5287e970", "Kyle", "Boberg2", "1/25/2013", "white", "M", "lots of history", "so many medication 2")
+
+console.log(await getPatientsByBirthdate("1/23/2013"))
