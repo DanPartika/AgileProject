@@ -180,4 +180,19 @@ router.route("/wireframe").get(async (req, res) => {
   return res.render("wireframe", { title: "Home", error: "" });
 });
 
+router.route("/dataview").get(async (req, res) => {
+    //make sure  cookie
+    if (!req.session.loggedIn) {
+      return res.redirect("/login");
+    }
+  
+    console.log(req.session.user);
+    //return homepage
+    return res.render("dataview", {
+      title: "EEG Data View",
+      error: "",
+      name: req.session.user.name,
+    });
+  });
+
 export default router;
