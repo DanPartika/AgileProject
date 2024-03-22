@@ -1,0 +1,30 @@
+<main>
+    {{#if patients}}
+    <h1>Patients</h1>
+    <ul>
+        {{#each patients}}
+            <li>
+                {{this.fname}} {{this.lname}} attended by {{this.surgeon}}
+            </li>
+        {{/each}}
+    </ul>
+
+    <h2>Sort By</h2>
+    <select id="PatientSortDropDown" onchange="sortPatients(this.value)">
+        <!-- Select Dropdown box used to choose the sort type, value should match the param being passed to URL for the sorting -->
+        <option value="null" hidden selected disabled>Choose Sort Option</option>
+        <option value="fname">First Name</option>
+        <option value="lname">Last Name</option>
+        <option value="next_surgery">Surgery Date</option>
+        <option value="surgeon">Surgeon</option>
+    </select>
+    {{/if}}
+    
+    <script>
+        function sortPatients(sortType){
+            //Redirects to the new sort type
+            window.location = `http://localhost:3000/patients/${sortType}`
+        }
+    </script>
+
+</main>

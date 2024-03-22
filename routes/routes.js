@@ -195,4 +195,83 @@ router.route("/dataview").get(async (req, res) => {
     });
   });
 
+
+router.route("/patients/:sort").get(async (req, res) => {
+
+  const validFlags = ["fname", "lname", "surgeon", "next_surgery"]
+
+  let patients = [
+    { 
+      fname: "Charles",
+      lname: "Canata",
+      surgeon: "Dr. Bhatt",
+      next_surgery: "3/11/2025"
+    },
+    { 
+      fname: "Kyle",
+      lname: "Boberg",
+      surgeon: "Dr. Nicolosi",
+      next_surgery: "3/12/2025"
+    },
+    { 
+      fname: "Daniel",
+      lname: "Partika",
+      surgeon: "Dr. Meunier",
+      next_surgery: "3/11/2026"
+    }
+  ] //Change to get from db once Bobe pushes his changes
+
+  //Defaults the sorting to first name unless the flag is a valid flag
+  let sortType = req.params.sort 
+  if(!validFlags.includes(sortType)){
+    sortType = "fname"
+  }
+
+  //Sorts the patient array by the chosen flag
+  patients = patients.sort((a,b) => {
+    if (a[sortType] < b[sortType]) return -1
+    else if (b[sortType] < a[sortType]) return 1
+    else return 0
+  })
+
+
+  //Render the page with the sorted patients array
+  return res.render("patients", {
+    title: "patients",
+    error: "",
+    patients,
+  })
+})
+
+//Does the same thing as the above route but without sorting
+router.route("/patients").get(async (req, res) => {
+
+  let patients = [
+    { 
+      fname: "Charles",
+      lname: "Canata",
+      surgeon: "Dr. Bhatt",
+      next_surgery: "3/11/2025"
+    },
+    { 
+      fname: "Kyle",
+      lname: "Boberg",
+      surgeon: "Dr. Nicolosi",
+      next_surgery: "3/12/2025"
+    },
+    { 
+      fname: "Daniel",
+      lname: "Partika",
+      surgeon: "Dr. Meunier",
+      next_surgery: "3/11/2026"
+    }
+  ] //Change to get from db once Bobe pushes his changes
+
+  return res.render("patients", {
+    title: "patients",
+    error: "",
+    patients,
+  })
+})
+
 export default router;
