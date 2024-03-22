@@ -1,7 +1,7 @@
 import {Router} from 'express'
 
 import { doCreateUserWithEmailAndPassword, doSignOut, dosignInWithEmailAndPassword } from '../firebase/firebaseFunctions.js'
-
+import { getPatientById, getPatientsByBirthdate } from '../data/patients.js';
 
 const router = Router()
 
@@ -131,5 +131,57 @@ router.route("/wireframe").get(async (req, res) => {
     //return wireframe
     return res.render("wireframe", {title: "Home", error: ""})
 })
+
+router.route('/patient/:id').get(async (req, res) => {
+
+    if(!req.session.loggedIn){
+        return res.redirect('/login')
+    }
+
+    let id = req.params.id
+
+    console.log(id)
+
+    if(!id){
+        return res.status(400).json({"error": "Must supply id"})
+    }
+
+    let patient
+    try{
+        patient  = await getPatientById(id)
+    }catch(e){
+        return res.status(404).json({"error": e})
+    }
+
+    return res.json(patient)
+
+})
+
+router.route('/searchPatients').post(async (req, res) => {
+
+
+    if(!req.session.loggedIn){
+        return res.redirect('/login')
+    }
+    console.log(req.body)
+
+    let birthdate = req.body.birthdate
+
+    if(!birthdate){
+        return res.status(400).json({"error": "Must supply birthdate"})
+    }
+
+    let patients
+    try{
+        patients  = await getPatientsByBirthdate(birthdate)
+    }catch(e){
+        return res.status(400).json({"error": e})
+    }
+
+    return res.json(patients)
+
+})
+
+
 
 export default router

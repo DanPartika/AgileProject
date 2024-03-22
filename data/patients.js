@@ -93,10 +93,13 @@ export const editPatientData= async (
 
 export async function getPatientById(id){
   let patientCollection = await patients();
+  console.log(id)
   let patient = await patientCollection.findOne({_id: new ObjectId(id)})
+  console.log(patient)
   if(!patient){
     throw "Could not find patient"
   }
+
   patient._id = patient._id.toString()
   return patient
 }
@@ -114,8 +117,8 @@ export async function getPatientsByBirthdate(birthdate){
 }
 
 
-await connectToMongoDB()
-await createPatient("Kyle", "Boberg", "1/23/2013", "white", "M", "lots of history", "so many medications")
+// await connectToMongoDB()
+// await createPatient("Kyle", "Boberg", "1/23/2013", "white", "M", "lots of history", "so many medications")
 //await editPatientData("65f8dd398346b2df5287e970", "Kyle", "Boberg2", "1/25/2013", "white", "M", "lots of history", "so many medication 2")
 
-console.log(await getPatientsByBirthdate("1/23/2013"))
+// console.log(await getPatientsByBirthdate("1/23/2013"))
