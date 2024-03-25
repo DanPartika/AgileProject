@@ -108,8 +108,6 @@ export async function getPatientById(id){
 export async function getPatientsByBirthdate(birthdate){
   let startDate = new Date(birthdate)
 
-  console.log(startDate.toLocaleDateString())
-
   let patientCollection = await patients();
   let patientList = await patientCollection.find({date_of_birth: startDate.toLocaleDateString()})
 
