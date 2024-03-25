@@ -14,6 +14,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { collection, getDocs } from "firebase/firestore";
 
+import { connectToMongoDB, closeConnection, getDB } from './config/mongoConnection.js';
 firebaseApp;
 
 // Initialize Cloud Firestore and get a reference to the service

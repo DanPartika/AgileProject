@@ -103,14 +103,18 @@
     background-color: rgba(255, 255, 255, 1);
     height: 48px;
   }
-  .img-2 {
-    aspect-ratio: 1.27;
-    object-fit: auto;
-    object-position: center;
-    width: 500px;
-    margin-top: 100px;
-    max-width: 100%;
-  }
+	.img-2 {
+		aspect-ratio: 1.27; /* Adjust if you need a specific aspect ratio, or remove it for full screen */
+		object-fit:contain; /* Cover the screen without losing aspect ratio */
+		object-position: center; /* Center the image within its container */
+		width: 90vw; /* 100% of the viewport width */
+		height: 90vh; /* 100% of the viewport height */
+		/*margin-top: 0; /* Reset margin top, if not needed for this context */
+		position:relative; /* Position it absolutely to ensure it can fill the screen */
+		top: 0; /* Align top to the top of the viewport */
+		left: 0; /* Align left to the left of the viewport */
+		z-index: -1; /* Optional: send it to the back if you have other content you want to overlay */
+	}
   @media (max-width: 991px) {
     .img-2 {
       margin-top: 40px;
