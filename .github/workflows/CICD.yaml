@@ -1,0 +1,14 @@
+
+name: Simple Automated Continuous Integration
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  print_message:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Automation practice
+        run: echo "testing workflow"
