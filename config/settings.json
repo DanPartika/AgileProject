@@ -1,4 +1,4 @@
 {
-    "mongoURI": "mongodb://localhost:27017",
-    "dbName": "Agile555Project1"
+    "mongoURI": "mongodb+srv://rbalani:7B7aCSLQhDwdN1LU@agile555project1cluster.6sxfjsi.mongodb.net/?retryWrites=true&w=majority&appName=Agile555Project1Cluster0",
+    "dbName": "Agile555Project1Cluster0"
 }
