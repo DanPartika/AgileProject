@@ -49,7 +49,7 @@ app.use(
     error: { status: 200, message: "" },
     saveUninitialized: false,
     resave: false,
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 10000000000 },
   })
 );
 
