@@ -1,6 +1,10 @@
 import assert from "assert";
 import {doCreateUserWithEmailAndPassword, dosignInWithEmailAndPassword, doSignOut, doUpdatePassword, doSocialSignIn} from "./firebase/firebaseFunctions.js"
 import { firebaseApp } from "./firebase/firebaseConfig.js";
+import { connectToMongoDB } from "./config/mongoConnection.js";
+
+
+import { createPatient, getPatientsByBirthdate } from "./data/patients.js";
 
 let testingCreate = async () => {
     await describe("Create User", async () => {
@@ -82,6 +86,63 @@ let testingDatabaseConnection = async () => {
     
 }
 
-await testingCreate()
-await testingLogin()
+let testingPatientData = async () => {
+    await connectToMongoDB()
+    describe('CreatePatient', function () {
+        describe('create function', function () {
+          it('it should return the id when successfully registered',async function () {
+            let patient = await createPatient("Patient", "One", "1/1/2000", "White", "M", "medical history", "medications")
+            assert.notEqual(patient, null);
+          });
+
+          it('it should return an error if data is missing',async function () {
+            let error = ""
+            try{
+                let patient = await createPatient("One", "1/1/2000", "White", "M", "medical history", "medications")
+            }catch(e){
+                error = e 
+            }
+            assert.notEqual(error, "");
+            
+          });
+
+          it('it should return an error if birthdate is in the future',async function () {
+            let error = ""
+            try{
+                let patient = await createPatient("Patient", "One", "1/1/2030", "White", "M", "medical history", "medications")
+            }catch(e){
+                error = e 
+            }
+            assert.notEqual(error, "");
+            
+          });
+    
+        });
+      });
+
+
+      describe('Search Patient', function () {
+        describe('search patient function', function () {
+          it('it should return the list of patients with the matching birthday',async function () {
+            let patients = await getPatientsByBirthdate("1/1/2000")
+            assert.notEqual(patients.length, 0);
+          });
+
+          it('it should return the empty list when no patient has a matching birthday',async function () {
+            let patients = await getPatientsByBirthdate("1/2/2000")
+            assert.equal(patients.length, 0);
+          });
+
+          it('it should return the empty list when the birthday is invalid',async function () {
+            let patients = await getPatientsByBirthdate("1/32/2000")
+            assert.equal(patients.length, 0);
+          });
+    
+        });
+      });
+}
+
+await testingPatientData()
+// await testingCreate()
+// await testingLogin()
 //DELETE CREATED USERS
