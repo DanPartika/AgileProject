@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { doCreateUserWithEmailAndPassword, doSignOut, dosignInWithEmailAndPassword } from '../firebase/firebaseFunctions.js'
-import { getPatientById, getPatientsByBirthdate } from '../data/patients.js';
+import { getPatientById, getPatientsByBirthdate, createPatient } from '../data/patients.js';
 
 
 const router = Router();
@@ -273,7 +273,6 @@ router.route("/patients").get(async (req, res) => {
 })
 
 router.route('/patient/:id').get(async (req, res) => {
-
     if(!req.session.loggedIn){
         return res.redirect('/login')
     }
@@ -292,8 +291,8 @@ router.route('/patient/:id').get(async (req, res) => {
     }catch(e){
         return res.status(404).json({"error": e})
     }
-
-    return res.json(patient)
+		// console.log(patient);
+    return res.render("patientPage", patient);
 
 })
 
