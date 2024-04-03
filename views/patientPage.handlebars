@@ -52,6 +52,28 @@
     <title>BrainBrowser Surface Viewer</title>
   </head>
   <body>
+    <div id="patientData">
+      <h1>{{patientData.lastName}}, {{patientData.firstName}}</h1>
+      <p>Date of birth: {{patientData.date_of_birth}}</p>
+      <p>Race: {{patientData.race}}</p>
+      <p>Sex: {{patientData.sex}}</p>
+      <form method="post">
+        <label for="medicalHistory">Medical History</label>
+        <br>
+        <textarea class="patient-notes" name="medicalHistory" id="medicalHistory">{{patientData.medical_history}}</textarea>
+        <br>
+        <label for="medications">Medical History</label>
+        <br>
+        <textarea class="patient-notes" name="medications" id="medications">{{patientData.medications}}</textarea>
+        <br>
+        <label for="notes">Notes</label>
+        <br>
+        <textarea class="patient-notes" name="notes" id="notes">{{patientData.notes}}</textarea>
+        <br>
+        <button type="submit">Save</button>
+      </form>
+    </div>
+
     <div id="display">
       <a id="control-button" class="button">Hide Controls</a>
       <div id="vertex-data-wrapper">
