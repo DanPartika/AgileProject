@@ -26,7 +26,7 @@
   "use strict";
   
   // REQUIRED
-  BrainBrowser.config.set("worker_dir", "http://localhost:5000/js/brainbrowser/workers/");
+  BrainBrowser.config.set("worker_dir", "/js/brainbrowser/workers/");
 
   // Custom configuration for the Surface Viewer demo app.
   BrainBrowser.config.set("model_types.freesurferasc.format_hint", 'You can use <a href="http://surfer.nmr.mgh.harvard.edu/fswiki/mris_convert" target="_blank">mris_convert</a> to convert your binary surface files into .asc format.');
@@ -35,23 +35,23 @@
   BrainBrowser.config.set("color_maps", [
     {
       name: "Spectral",
-      url: "http://localhost:5000/color-maps/spectral.txt",
+      url: "/color-maps/spectral.txt",
     },
     {
       name: "Thermal",
-      url: "http://localhost:5000/color-maps/thermal.txt",
+      url: "/color-maps/thermal.txt",
     },
     {
       name: "Gray",
-      url: "http://localhost:5000/color-maps/gray-scale.txt",
+      url: "/color-maps/gray-scale.txt",
     },
     {
       name: "Blue",
-      url: "http://localhost:5000/color-maps/blue.txt",
+      url: "/color-maps/blue.txt",
     },
     {
       name: "Green",
-      url: "http://localhost:5000/color-maps/green.txt",
+      url: "/color-maps/green.txt",
     }
   ]);
 

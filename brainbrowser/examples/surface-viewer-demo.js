@@ -51,7 +51,7 @@ $(function() {
     return;
   }
 
-  $.get("http://localhost:5000/models/atlas-labels.txt", function(data) {
+  $.get("/models/atlas-labels.txt", function(data) {
     var lines = data.split("\n");
     var regex = /'(.+)'\s+(\d+)/;
 
@@ -720,7 +720,7 @@ $(function() {
       var examples = {
         atlas: function() {
           viewer.annotations.setMarkerRadius(1);
-          viewer.loadModelFromURL("http://localhost:5000/models/brain-surface.obj", {
+          viewer.loadModelFromURL("/models/brain-surface.obj", {
             format: "mniobj",
             complete: function() {
               $("#vertex-data-wrapper").show();
@@ -735,18 +735,18 @@ $(function() {
           });
         },
         dti: function() {
-          viewer.loadModelFromURL("http://localhost:5000/models/dti.obj", {
+          viewer.loadModelFromURL("/models/dti.obj", {
             format: "mniobj",
             render_depth: 999,
             complete: hideLoading,
             cancel: defaultCancelOptions(current_request)
           });
-          viewer.loadModelFromURL("http://localhost:5000/models/left-color-mesh.obj", {
+          viewer.loadModelFromURL("/models/left-color-mesh.obj", {
             format: "mniobj",
             recenter: true,
             cancel: defaultCancelOptions(current_request)
           });
-          viewer.loadModelFromURL("http://localhost:5000/models/right-color-mesh.obj", {
+          viewer.loadModelFromURL("/models/right-color-mesh.obj", {
             format: "mniobj",
             recenter: true,
             cancel: defaultCancelOptions(current_request)
@@ -754,7 +754,7 @@ $(function() {
         },
         cortical_thickness: function() {
           viewer.annotations.setMarkerRadius(1);
-          viewer.loadModelFromURL("http://localhost:5000/models/brain-surface.obj", {
+          viewer.loadModelFromURL("/models/brain-surface.obj", {
             format: "mniobj",
             parse: { split: true },
             complete: function() {
@@ -771,7 +771,7 @@ $(function() {
         },
         blend: function() {
           viewer.annotations.setMarkerRadius(1);
-          viewer.loadModelFromURL("http://localhost:5000/models/brain-surface.obj", {
+          viewer.loadModelFromURL("/models/brain-surface.obj", {
             format: "mniobj",
             parse: { split: true },
             complete: function() {
@@ -794,7 +794,7 @@ $(function() {
         },
         car: function() {
           viewer.annotations.setMarkerRadius(0.3);
-          viewer.loadModelFromURL("http://localhost:5000/models/car.obj", {
+          viewer.loadModelFromURL("/models/car.obj", {
             format: "wavefrontobj",
             complete: function() {
               $("#vertex-data-wrapper").show();
@@ -816,7 +816,7 @@ $(function() {
         },
         freesurferbin: function() {
           viewer.annotations.setMarkerRadius(1);
-          viewer.loadModelFromURL("http://localhost:5000/models/freesurfer-binary-surface", {
+          viewer.loadModelFromURL("/models/freesurfer-binary-surface", {
             format: "freesurferbin",
             complete: function() {
               $("#vertex-data-wrapper").show();
@@ -834,7 +834,7 @@ $(function() {
         },
         freesurferasc: function() {
           viewer.annotations.setMarkerRadius(1);
-          viewer.loadModelFromURL("http://localhost:5000/models/freesurfer-surface.asc", {
+          viewer.loadModelFromURL("/models/freesurfer-surface.asc", {
             format: "freesurferasc",
             complete: function() {
               $("#vertex-data-wrapper").show();
@@ -853,7 +853,7 @@ $(function() {
         dbs: function() {
           viewer.annotations.setMarkerRadius(0.3);
 
-          viewer.loadModelFromURL("http://localhost:5000/models/dbs.json", {
+          viewer.loadModelFromURL("/models/dbs.json", {
             format: "json",
             complete: function() {
               var i;
@@ -883,12 +883,12 @@ $(function() {
             cancel: defaultCancelOptions(current_request)
           });
 
-          viewer.loadModelFromURL("http://localhost:5000/models/dbs-fibers.json", {
+          viewer.loadModelFromURL("/models/dbs-fibers.json", {
             format: "json",
             cancel: defaultCancelOptions(current_request)
           });
 
-          viewer.loadModelFromURL("http://localhost:5000/models/dbs-vat.json", {
+          viewer.loadModelFromURL("/models/dbs-vat.json", {
             format: "json",
             cancel: defaultCancelOptions(current_request)
           });
