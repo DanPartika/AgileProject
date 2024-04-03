@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { doCreateUserWithEmailAndPassword, doSignOut, dosignInWithEmailAndPassword } from '../firebase/firebaseFunctions.js'
-import { getPatientById, getPatientsByBirthdate, createPatient } from '../data/patients.js';
+import { getPatientById, getPatientsByBirthdate, createPatient, editPatientNotes } from '../data/patients.js';
 
 
 const router = Router();
@@ -292,8 +292,36 @@ router.route('/patient/:id').get(async (req, res) => {
         return res.status(404).json({"error": e})
     }
 		// console.log(patient);
-    return res.render("patientPage", patient);
+    return res.render("patientPage", {patientData: patient});
 
+}).post(async (req, res) => { 
+  if(!req.session.loggedIn){
+    return res.redirect('/login')
+  }
+
+  let id = req.params.id
+
+  console.log(id)
+
+  if(!id){
+      return res.status(400).json({"error": "Must supply id"})
+  }
+
+  let history = req.body.medicalHistory
+  let medications = req.body.medications
+  let notes = req.body.notes
+
+  console.log(req.body)
+
+  let patient
+  try{
+    patient = await editPatientNotes(id, history, medications, notes)
+  }catch(e){
+    return res.status(500).json({"error": "Server error"})
+  }
+  
+
+  return res.redirect('/patient/'+id)
 })
 
 router.route('/searchPatients').post(async (req, res) => {

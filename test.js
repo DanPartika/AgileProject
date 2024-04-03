@@ -145,4 +145,3 @@ let testingPatientData = async () => {
 await testingPatientData()
 // await testingCreate()
 // await testingLogin()
-//DELETE CREATED USERS

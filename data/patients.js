@@ -2,6 +2,31 @@ import {patients} from "../config/mongoCollections.js"
 import {connectToMongoDB} from '../config/mongoConnection.js'
 import {ObjectId} from "mongodb";
 
+
+
+const validatePatientArgs = (VARS, VAR_NAMES) =>{
+  let errors = []
+
+  for(let i = 0; i < VARS.length; i++){
+    if(!VARS[i]){
+      errors.push(`Field: ${VAR_NAMES[i]} missing! Please supply.`)
+    }
+  }
+  if(errors.length > 0){
+    //console.log(errors.toString()) //used to show example in test
+    throw errors.toString()
+  }
+  return
+}
+
+const validateDateOfBirth = (date_of_birth) => {
+  date_of_birth = new Date(date_of_birth)
+  if(date_of_birth > new Date()){
+    throw "Invalid Date of Birth"
+  }
+  return date_of_birth
+}
+
 export const createPatient = async (
   firstName,
   lastName,
@@ -11,22 +36,18 @@ export const createPatient = async (
   medical_history, 
   medications
 ) => {
-  if(!firstName||!lastName||!date_of_birth||!race||!sex||!medical_history||!medications){throw "Field(s) missing"};
-  firstName = firstName.trim();
-  lastName = lastName.trim();
+  validatePatientArgs([firstName,lastName,date_of_birth,race,sex,medical_history,medications],["firstName","lastName","date_of_birth","race","sex","medical_history","medications"])
   
 
   let patientCollection = await patients();
 
-  date_of_birth = new Date(date_of_birth)
-  if(date_of_birth > new Date()){
-    throw "Invalid Date"
-  }
+  date_of_birth = validateDateOfBirth(date_of_birth)
+ 
 
   
   let newPatient = {
-    firstName,
-    lastName,
+    firstName: firstName.trim(),
+    lastName: lastName.trim(),
     date_of_birth: `${date_of_birth.toLocaleDateString()}`,
     race,
     sex,
@@ -41,6 +62,30 @@ export const createPatient = async (
 
 };
 
+export const editPatientNotes = async(
+  id, 
+  medical_history, 
+  medications,
+  notes
+) => {
+  let patientCollection = await patients();
+  let patient = await patientCollection.findOne({_id: new ObjectId(id)})
+
+  let updated = {...patient}
+  updated.medical_history = medical_history
+  updated.medications = medications
+  updated.notes = notes
+
+  console.log(updated)
+  
+  let update = await patientCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: updated});
+    if(!update){throw "could not update band"}
+    update._id = update._id.toString();
+
+    return update.value;
+
+}
+
 export const editPatientData= async (
     id,
     firstName,
@@ -49,36 +94,29 @@ export const editPatientData= async (
     race,
     sex,
     medical_history, 
-    medications
+    medications,
+    notes
 ) => {
-    if(!firstName||!lastName||!date_of_birth||!race||!sex||!medical_history||!medications){throw "Field(s) missing"};
-    firstName = firstName.trim();
-    lastName = lastName.trim();
-
-
-    
-
-    date_of_birth = new Date(date_of_birth)
-    if(date_of_birth > new Date()){
-        throw "Invalid Date"
-    }
+  validatePatientArgs([firstName,lastName,date_of_birth,race,sex,medical_history,medications],["firstName","lastName","date_of_birth","race","sex","medical_history","medications"])
+  date_of_birth = validateDateOfBirth(date_of_birth)
+   
 
     let patientCollection = await patients();
-
     let patient = await patientCollection.findOne({_id: new ObjectId(id)})
-    console.log(patient)
+
     if(!patient){
         throw "Patient does not exist"
     }
 
     let updatePatient = {
-    firstName,
-    lastName,
+    firstName: firstName.trim(),
+    lastName: lastName.trim(),
     date_of_birth: `${date_of_birth.toLocaleDateString()}`,
     race,
     sex,
     medical_history, 
-    medications
+    medications,
+    notes
     };
 
     let updated = await patientCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: updatePatient});
