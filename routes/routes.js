@@ -3,6 +3,12 @@ import { Router } from "express";
 import { doCreateUserWithEmailAndPassword, doSignOut, dosignInWithEmailAndPassword } from '../firebase/firebaseFunctions.js'
 import { getPatientById, getPatientsByBirthdate, createPatient, editPatientNotes } from '../data/patients.js';
 
+import { dirname } from "path";
+// import { fileURLToPath } from "url";
+// const __filename = fileURLToPath(import.meta.url);
+let __dirname = dirname('./brainbrowser/examples');
+__dirname += '/examples'
+
 
 const router = Router();
 
@@ -348,6 +354,28 @@ router.route('/searchPatients').post(async (req, res) => {
     return res.json(patients)
 
 })
+
+//stuff so the brain works
+router.route("/color-maps/spectral.txt").get(async (req, res) => {
+  res.sendFile('color-maps/spectral.txt.gz',  {root : __dirname})
+});
+
+router.route("/models/brain-surface.obj").get(async (req, res) => {
+  res.sendFile('models/brain-surface.obj.gz',  {root : __dirname})
+});
+
+// router.route("/").get(async (req, res) => {
+//   res.sendFile('',  {root : __dirname})
+// });
+
+// router.route("/").get(async (req, res) => {
+//   res.sendFile('',  {root : __dirname})
+// });
+
+// router.route("/").get(async (req, res) => {
+//   res.sendFile('',  {root : __dirname})
+// });
+
 
 
 
