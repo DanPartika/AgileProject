@@ -1,8 +1,8 @@
 <main>
     <div id="user-info">
         <div id="info-header">
-            <h2>TITLE NAME</h2>
-            <a>BIRTHDAY</a>
+            <h2>{{user_title}} {{name}}</h2>
+            <a>Born on: {{birthdate}}</a>
         </div>
 
         <div id="patients-list">
@@ -22,7 +22,7 @@
             <ul>
             {{#each surgeries}}
                 <li>
-                    {{surgeries.type}} on {{surgeries.date}}
+                    {{this.type}} on {{this.date}}
                 </li>
             {{/each}}
             </ul>

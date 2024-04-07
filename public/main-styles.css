@@ -45,3 +45,10 @@ header {
   bottom: 20px; /* Adjust bottom spacing */
   left: 10px; /* Adjust left spacing */
 }
+
+#profile-link {
+  text-decoration: none;
+  color: #000000;
+}
+
+
