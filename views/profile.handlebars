@@ -1,5 +1,31 @@
 <main>
     <div id="user-info">
-        <h3>Name</h3>
+        <div id="info-header">
+            <h2>TITLE NAME</h2>
+            <a>BIRTHDAY</a>
+        </div>
+
+        <div id="patients-list">
+            <h3>Patients:</h3>
+
+            <ul>
+            {{#each Patients}}
+                <li>
+                    {{Patients.name}}
+                </li>
+            {{/each}}
+            </ul>
+        </div>
+
+        <div id="surgeries-list">
+            <h3>Upcoming surgeries:</h3>
+            <ul>
+            {{#each surgeries}}
+                <li>
+                    {{surgeries.type}} on {{surgeries.date}}
+                </li>
+            {{/each}}
+            </ul>
+        </div>
     </div>
 </main>
