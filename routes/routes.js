@@ -23,7 +23,7 @@ router.route("/login").get(async (req, res) => {
   }
 
   //return login page
-  return res.render("login", { title: "Login", error: "" });
+  return res.render("login", { title: "Login", layout: "nonav", error: "" });
 });
 
 router.route("/signup").get(async (req, res) => {
@@ -33,7 +33,7 @@ router.route("/signup").get(async (req, res) => {
   }
 
   //return signup page
-  return res.render("signup", { title: "Sign Up", error: "" });
+  return res.render("signup", { title: "Sign Up", layout: "nonav", error: "" });
 });
 
 router.route("/signup").post(async (req, res) => {
@@ -47,13 +47,13 @@ router.route("/signup").post(async (req, res) => {
   ) {
     return res
       .status(400)
-      .render("signup", { title: "Sign Up", error: "Invalid Request" });
+      .render("signup", { title: "Sign Up", layout: "nonav", error: "Invalid Request" });
   }
 
   if (userInfo.passwordInput != userInfo.confirmPasswordInput) {
     return res
       .status(400)
-      .render("signup", { title: "Sign Up", error: "Passwords must match" });
+      .render("signup", { title: "Sign Up", layout: "nonav", error: "Passwords must match" });
   }
 
   if (req.session.loggedIn) {
@@ -71,7 +71,7 @@ router.route("/signup").post(async (req, res) => {
   } catch (e) {
     return res
       .status(400)
-      .render("signup", { title: "Sign Up", error: String(e) });
+      .render("signup", { title: "Sign Up", layout: "nonav", error: String(e) });
   }
 
   //set cookie
@@ -89,7 +89,7 @@ router.route("/login").post(async (req, res) => {
   if (!userInfo || !userInfo.emailAddressInput || !userInfo.passwordInput) {
     return res
       .status(400)
-      .render("login", { title: "Login", error: "Invalid Request" });
+      .render("login", { title: "Login", layout: "nonav", error: "Invalid Request" });
   }
 
   if (req.session.loggedIn) {

@@ -1,20 +1,33 @@
-<main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/main-styles.css">
+    <title>{{title}}</title>
+</head>
+<body>
+    <main class="login-container">
     <h1>{{title}}</h1>
 
     <form method="POST" id="registration-form">
         <label for="nameInput">Name:</label>
+        <br>
         <input type="text" id="nameInput" name="nameInput">
         <br>
 
         <label for="emailAddressInput">Email:</label>
+        <br>
         <input type="email" id="emailAddressInput" name="emailAddressInput">
         <br>
 
         <label for="passwordInput">Password:</label>
+        <br>
         <input type="password" id="passwordInput" name="passwordInput">
         <br>
 
         <label for="confirmPasswordInput">Confirm Password:</label>
+        <br>
         <input type="password" id="confirmPasswordInput" name="confirmPasswordInput">
         <br>
 
@@ -27,6 +40,6 @@
     </div>
 
     <a href="/login">Already have an account? Click here to log-in</a>
-
-
-</main>
+    </main>
+</body>
+</html>
