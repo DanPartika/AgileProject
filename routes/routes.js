@@ -47,7 +47,7 @@ router.route("/signup").post(async (req, res) => {
   ) {
     return res
       .status(400)
-      .render("signup", { title: "Sign Up", layout: "nonav", error: "Invalid Request" });
+      .render("signup", { title: "Sign Up", layout: "nonav", error: "Signup Failed!" });
   }
 
   if (userInfo.passwordInput != userInfo.confirmPasswordInput) {
@@ -89,7 +89,7 @@ router.route("/login").post(async (req, res) => {
   if (!userInfo || !userInfo.emailAddressInput || !userInfo.passwordInput) {
     return res
       .status(400)
-      .render("login", { title: "Login", layout: "nonav", error: "Invalid Request" });
+      .render("login", { title: "Login", layout: "nonav", error: "Login Failed!" });
   }
 
   if (req.session.loggedIn) {
