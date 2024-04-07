@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { doCreateUserWithEmailAndPassword, doSignOut, dosignInWithEmailAndPassword } from '../firebase/firebaseFunctions.js'
-import { getPatientById, getPatientsByBirthdate, createPatient, editPatientNotes } from '../data/patients.js';
+import { getPatientById, getPatientsByBirthdate, getAllPatients, createPatient, editPatientNotes } from '../data/patients.js';
 
 import { dirname } from "path";
 // import { fileURLToPath } from "url";
@@ -145,34 +145,7 @@ router.route("/home").get(async (req, res) => {
     name: req.session.user.name,
   });
 });
-router.route("/home2").get(async (req, res) => {
-  //make sure  cookie
-  if (!req.session.loggedIn) {
-    return res.redirect("/login");
-  }
 
-  console.log(req.session.user);
-  //return homepage
-  return res.render("home2", {
-    title: "Home2",
-    error: "",
-    name: req.session.user.name,
-  });
-});
-router.route("/home3").get(async (req, res) => {
-  //make sure  cookie
-  if (!req.session.loggedIn) {
-    return res.redirect("/login");
-  }
-
-  console.log(req.session.user);
-  //return homepage
-  return res.render("home3", {
-    title: "Home3",
-    error: "",
-    name: req.session.user.name,
-  });
-});
 
 router.route("/wireframe").get(async (req, res) => {
   //make sure  cookie
@@ -202,28 +175,9 @@ router.route("/dataview").get(async (req, res) => {
 
 router.route("/patients/:sort").get(async (req, res) => {
 
-  const validFlags = ["fname", "lname", "surgeon", "next_surgery"]
+  const validFlags = ["fname", "lname", "DOB", "medications"]
 
-  let patients = [
-    { 
-      fname: "Charles",
-      lname: "Canata",
-      surgeon: "Dr. Bhatt",
-      next_surgery: "3/11/2025"
-    },
-    { 
-      fname: "Kyle",
-      lname: "Boberg",
-      surgeon: "Dr. Nicolosi",
-      next_surgery: "3/12/2025"
-    },
-    { 
-      fname: "Daniel",
-      lname: "Partika",
-      surgeon: "Dr. Meunier",
-      next_surgery: "3/11/2026"
-    }
-  ] //Change to get from db once Bobe pushes his changes
+  let patients = await getAllPatients();
 
   //Defaults the sorting to first name unless the flag is a valid flag
   let sortType = req.params.sort 
@@ -250,26 +204,7 @@ router.route("/patients/:sort").get(async (req, res) => {
 //Does the same thing as the above route but without sorting
 router.route("/patients").get(async (req, res) => {
 
-  let patients = [
-    { 
-      fname: "Charles",
-      lname: "Canata",
-      surgeon: "Dr. Bhatt",
-      next_surgery: "3/11/2025"
-    },
-    { 
-      fname: "Kyle",
-      lname: "Boberg",
-      surgeon: "Dr. Nicolosi",
-      next_surgery: "3/12/2025"
-    },
-    { 
-      fname: "Daniel",
-      lname: "Partika",
-      surgeon: "Dr. Meunier",
-      next_surgery: "3/11/2026"
-    }
-  ] //Change to get from db once Bobe pushes his changes
+  let patients = await getAllPatients();
 
   return res.render("patients", {
     title: "patients",
