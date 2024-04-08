@@ -216,7 +216,7 @@ router.route("/patients").get(async (req, res) => {
   return res.render("patients", {
     title: "patients",
     error: "",
-    patients,
+    patients: patients,
   })
 })
 

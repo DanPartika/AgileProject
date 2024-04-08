@@ -1,16 +1,19 @@
-const patients = require('./data/patients');
+
+import { createPatient, getPatientsByBirthdate } from "./data/patients.js";
+import { connectToMongoDB, closeConnection, getDB } from './config/mongoConnection.js';
+
 
 async function main() {
-    const db = await connection.dbConnection();
-    await db.dropDatabase();
+    await connectToMongoDB();
 
     try{
-        
+        await createPatient("Test", "Person", "1/23/2013", "white", "M", "testing1", "medications");
+
     }catch(e){
         console.log(e);
     }
 
-    await connection.closeConnection();
+    await closeConnection();
 }
 
 main();

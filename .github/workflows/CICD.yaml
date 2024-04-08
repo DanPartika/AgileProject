@@ -11,4 +11,4 @@ jobs:
 
     steps:
       - name: Automation practice
-        run: echo "testing workflow"
+        run: npm test

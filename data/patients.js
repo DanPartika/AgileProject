@@ -142,15 +142,26 @@ export async function getPatientById(id){
   return patient
 }
 
+// export async function getAllPatients(){
+//   let patientCollection = await patients();
+//   let patient = await patientCollection.find({})
+//   if(!patient){
+//     throw "Could not find patients"
+//   }
+
+//   patient._id = patient._id.toString()
+//   return patient
+// }
+
 export async function getAllPatients(){
   let patientCollection = await patients();
-  let patient = await patientCollection.find({})
-  if(!patient){
+  let patientList = await patientCollection.find({}).toArray();
+  if(!patientList){
     throw "Could not find patients"
   }
 
-  patient._id = patient._id.toString()
-  return patient
+  //patient._id = patient._id.toString()
+  return patientList;
 }
 
 export async function getPatientsByBirthdate(birthdate){
