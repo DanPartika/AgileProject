@@ -1,14 +1,24 @@
 
-name: Simple Automated Continuous Integration
+name: Run tests
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  print_message:
+  tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Automation practice
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.18
+
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run tests
         run: npm test
