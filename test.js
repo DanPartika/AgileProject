@@ -142,6 +142,6 @@ let testingPatientData = async () => {
       });
 }
 
-await testingPatientData()
+//await testingPatientData()
 // await testingCreate()
 // await testingLogin()
