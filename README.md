@@ -29,7 +29,24 @@ npm start
 
 ## Version History
 
-* 1.0.0
+* 1.0
     * Initial Release
     * Basic website with login/signup features
     * Shows a basic template of what future sprints will aim to complete
+* 2.0
+    * Create different pages (with navigation bar) to organize where data will be displayed (i.e. patient data, visualization, profile data)
+    * Create Patient Search functionality
+    * Further integrate a CI/CD pipeline/workflow file for further functionality
+    * Add ability & routes to search for patients via different filters (First Name, Last Name, Surgery Date, Surgeon)
+    * Get EEG visualization set up on personal machines for future integration to web app
+    * Streamline access to patient data right after sign-in
+
+* 3.0
+    * Interactive 3D rendering a brain scan integrated in app
+    * “Medical History” and additional “Notes Display” display and uploading functionality added
+    * Surgeons can now view patient information like DOB, Race, Sex, Medical History, and Additional Notes as well as the option to save additional history/notes info
+    * Further integrate a CI/CD pipeline/workflow file for further functionality
+    * EEG patient dataset selected to use for brain model
+    * Incremental/minor UI/UX additions to enhance user readability/display
+
+
