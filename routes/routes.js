@@ -4,6 +4,8 @@ import { doCreateUserWithEmailAndPassword, doSignOut, dosignInWithEmailAndPasswo
 import { getPatientById, getPatientsByBirthdate, getAllPatients, createPatient, editPatientNotes, editPatientSharedSuregon } from '../data/patients.js';
 
 import { dirname } from "path";
+import xss from 'xss';
+
 // import { fileURLToPath } from "url";
 // const __filename = fileURLToPath(import.meta.url);
 let __dirname = dirname('./brainbrowser/examples');
@@ -64,9 +66,9 @@ router.route("/signup").post(async (req, res) => {
   let user;
   try {
     user = await doCreateUserWithEmailAndPassword(
-      userInfo.emailAddressInput,
-      userInfo.passwordInput,
-      userInfo.nameInput
+      xss(userInfo.emailAddressInput),
+      xss(userInfo.passwordInput),
+      xss(userInfo.nameInput)
     );
   } catch (e) {
     return res
@@ -100,8 +102,8 @@ router.route("/login").post(async (req, res) => {
   let user;
   try {
     user = await dosignInWithEmailAndPassword(
-      userInfo.emailAddressInput,
-      userInfo.passwordInput
+      xss(userInfo.emailAddressInput),
+      xss(userInfo.passwordInput)
     );
   } catch (e) {
     return res
@@ -255,10 +257,10 @@ router.route('/patient/:id').get(async (req, res) => {
       return res.status(400).json({"error": "Must supply id"})
   }
 
-  let history = req.body.medicalHistory
-  let medications = req.body.medications
-  let notes = req.body.notes
-	let sharedSuregon = req.body.sharedSuregon
+  let history = xss(req.body.medicalHistory)
+  let medications = xss(req.body.medications)
+  let notes = xss(req.body.notes)
+	let sharedSuregon = xss(req.body.sharedSuregon)
 
   console.log(req.body)
 
@@ -288,7 +290,7 @@ router.route('/searchPatients').post(async (req, res) => {
     }
     console.log(req.body)
 
-    let birthdate = req.body.birthdate
+    let birthdate = xss(req.body.birthdate);
 
     if(!birthdate){
         return res.status(400).json({"error": "Must supply birthdate"})
