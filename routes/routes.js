@@ -184,14 +184,14 @@ router.route("/dataview").get(async (req, res) => {
 
 router.route("/patients/:sort").get(async (req, res) => {
 
-  const validFlags = ["fname", "lname", "DOB", "medications"]
+  const validFlags = ["firstName", "lastName", "date_of_birth", "medications"]
 
   let patients = await getAllPatients();
 
   //Defaults the sorting to first name unless the flag is a valid flag
   let sortType = req.params.sort 
   if(!validFlags.includes(sortType)){
-    sortType = "fname"
+    sortType = "firstName"
   }
 
   //Sorts the patient array by the chosen flag
