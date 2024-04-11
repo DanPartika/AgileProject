@@ -57,6 +57,7 @@
       <p>Date of birth: {{patientData.date_of_birth}}</p>
       <p>Race: {{patientData.race}}</p>
       <p>Sex: {{patientData.sex}}</p>
+			<p>Suregon: {{patientData.suregon}}</p>
       <form method="post">
         <label for="medicalHistory">Medical History</label>
         <br>
@@ -70,9 +71,14 @@
         <br>
         <textarea class="patient-notes" name="notes" id="notes">{{patientData.notes}}</textarea>
         <br>
-        <button type="submit">Save</button>
+				<label for="notes">Shared Suregon</label>
+				<br>
+				<textarea class="patient-notes" name="sharedSuregon" id="sharedSuregon">{{patientData.sharedSuregon}}</textarea>
+    		<br>
+				<button type="submit">Save</button>
       </form>
     </div>
+
 
     <div id="display">
       <a id="control-button" class="button">Hide Controls</a>

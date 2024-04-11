@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { doCreateUserWithEmailAndPassword, doSignOut, dosignInWithEmailAndPassword } from '../firebase/firebaseFunctions.js'
-import { getPatientById, getPatientsByBirthdate, getAllPatients, createPatient, editPatientNotes } from '../data/patients.js';
+import { getPatientById, getPatientsByBirthdate, getAllPatients, createPatient, editPatientNotes, editPatientSharedSuregon } from '../data/patients.js';
 
 import { dirname } from "path";
 // import { fileURLToPath } from "url";
@@ -258,12 +258,20 @@ router.route('/patient/:id').get(async (req, res) => {
   let history = req.body.medicalHistory
   let medications = req.body.medications
   let notes = req.body.notes
+	let sharedSuregon = req.body.sharedSuregon
 
   console.log(req.body)
 
   let patient
+	
   try{
+
     patient = await editPatientNotes(id, history, medications, notes)
+
+		patient = await editPatientSharedSuregon(
+			id,
+			sharedSuregon
+		);
   }catch(e){
     return res.status(500).json({"error": "Server error"})
   }
