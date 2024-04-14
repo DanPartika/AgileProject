@@ -11,7 +11,7 @@ import {
     EmailAuthProvider,
     reauthenticateWithCredential,
   } from "firebase/auth";
-import { createDoctor } from "../data/doctor.js";
+import { createDoctor} from "../data/doctor.js";
   
   export async function doCreateUserWithEmailAndPassword(
     email,
@@ -21,7 +21,8 @@ import { createDoctor } from "../data/doctor.js";
     const auth = getAuth();
     await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(auth.currentUser, { displayName: displayName });
-		await createDoctor(email,[]);
+		await createDoctor(email, []);
+
     return dosignInWithEmailAndPassword(email, password)
   }
   

@@ -1,6 +1,6 @@
 {
 	"name": "agileproject",
-	"version": "1.0.0",
+	"version": "4.0.0",
 	"description": "Construct a presurgical epilepsy evaluation system by pinpointing sources of brain activity using EEG data and rendering a 3D visualization of a brain. Build a user friendly application that will be convenient for surgeons to use and aid in their decision making. ",
 	"main": "app.js",
 	"type": "module",
