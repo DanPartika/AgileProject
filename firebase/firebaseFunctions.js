@@ -11,7 +11,7 @@ import {
     EmailAuthProvider,
     reauthenticateWithCredential,
   } from "firebase/auth";
-import { createDoctor } from "../data/doctor";
+import { createDoctor } from "../data/doctor.js";
   
   export async function doCreateUserWithEmailAndPassword(
     email,
