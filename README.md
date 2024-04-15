@@ -13,7 +13,12 @@ Construct a presurgical epilepsy evaluation system by pinpointing sources of bra
 npm install
 ```
 
-2. Next you can run the program using the following command in a terminal:
+2. Next you can seed the program using the following command in a terminal:
+```
+node seed.js
+```
+
+3. Next you can run the program using the following command in a terminal:
 ```
 npm start
 ```
