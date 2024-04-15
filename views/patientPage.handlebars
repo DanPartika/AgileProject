@@ -57,13 +57,12 @@
       <p>Date of birth: {{patientData.date_of_birth}}</p>
       <p>Race: {{patientData.race}}</p>
       <p>Sex: {{patientData.sex}}</p>
-			<p>Suregon: {{patientData.suregon}}</p>
       <form method="post">
         <label for="medicalHistory">Medical History</label>
         <br>
         <textarea class="patient-notes" name="medicalHistory" id="medicalHistory">{{patientData.medical_history}}</textarea>
         <br>
-        <label for="medications">Medical History</label>
+        <label for="medications">Medications</label>
         <br>
         <textarea class="patient-notes" name="medications" id="medications">{{patientData.medications}}</textarea>
         <br>
@@ -71,11 +70,7 @@
         <br>
         <textarea class="patient-notes" name="notes" id="notes">{{patientData.notes}}</textarea>
         <br>
-				<label for="notes">Shared Suregon</label>
-				<br>
-				<textarea class="patient-notes" name="sharedSuregon" id="sharedSuregon">{{patientData.sharedSuregon}}</textarea>
-    		<br>
-				<button type="submit">Save</button>
+				<button type="submit">Save and add patient to My Patients</button>
       </form>
     </div>
 

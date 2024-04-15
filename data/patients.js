@@ -35,10 +35,9 @@ export const createPatient = async (
   sex,
   medical_history, 
   medications,
-	suregon,
-	sharedSuregon
+
 ) => {
-  validatePatientArgs([firstName,lastName,date_of_birth,race,sex,medical_history,medications,	suregon,sharedSuregon],["firstName","lastName","date_of_birth","race","sex","medical_history","medications","suregon","sharedSuregon"])
+  validatePatientArgs([firstName,lastName,date_of_birth,race,sex,medical_history,medications],["firstName","lastName","date_of_birth","race","sex","medical_history","medications"])
   
 
   let patientCollection = await patients();
@@ -54,9 +53,7 @@ export const createPatient = async (
     race,
     sex,
     medical_history, 
-    medications,
-		suregon,
-		sharedSuregon
+    medications
   };
 
   let createInfo = await patientCollection.insertOne(newPatient);
@@ -80,13 +77,12 @@ export const editPatientNotes = async(
   updated.medications = medications
   updated.notes = notes
 
-  console.log(updated)
   
   let update = await patientCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: updated});
-    if(!update){throw "could not update patient"}
+    if(!update) throw "could not update patient"
     update._id = update._id.toString();
 
-    return update.value;
+	return update;
 
 }
 
@@ -99,11 +95,9 @@ export const editPatientData= async (
     sex,
     medical_history, 
     medications,
-		suregon,
-		sharedSuregon,
     notes
 ) => {
-  validatePatientArgs([firstName,lastName,date_of_birth,race,sex,medical_history,medications,suregon,sharedSuregon],["firstName","lastName","date_of_birth","race","sex","medical_history","medications","suregon","sharedSuregon"])
+  validatePatientArgs([firstName,lastName,date_of_birth,race,sex,medical_history,medications],["firstName","lastName","date_of_birth","race","sex","medical_history","medications"])
   date_of_birth = validateDateOfBirth(date_of_birth)
    
 
@@ -122,13 +116,11 @@ export const editPatientData= async (
     sex,
     medical_history, 
     medications,
-		suregon,
-		sharedSuregon,
     notes
     };
 
     let updated = await patientCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: updatePatient});
-    if(!updated){throw "could not update band"}
+    if(!updated) throw "could not update patient"
     updated._id = updated._id.toString();
 
     return updated.value;
@@ -161,6 +153,17 @@ export async function getPatientById(id){
 //   return patient
 // }
 
+export async function getAllPatientsFromDoctorPatientList(patList) {
+	if (patList.length == 0) return []
+	let allPatients = []
+	for (let i = 0; i < patList.length; i++) {
+		let patient = await getPatientById(patList[i]);
+		allPatients[allPatients.length] = patient
+	}
+	if (allPatients.length == 0) throw "No Patients found"
+	return allPatients;
+}
+
 export async function getAllPatients(){
   let patientCollection = await patients();
   let patientList = await patientCollection.find({}).toArray();
@@ -181,45 +184,6 @@ export async function getPatientsByBirthdate(birthdate){
   return patientList.toArray()
 }
 
-export async function getPatientsBySuregon(suregon) {
-	let patientCollection = await patients();
-	let patientList = await patientCollection.find({
-		suregon: suregon
-	});
-
-	return patientList.toArray();
-}
-
-export async function editPatientSharedSuregon(id, newSharedSuregon) {
-	console.log("HERE00");
-	let sSuregon = newSharedSuregon.trim();
-
-	let patientCollection = await patients();
-	let patient = await patientCollection.findOne({_id: new ObjectId(id)})
-console.log("HERE0");
-	if(!patient){
-			throw "Patient does not exist"
-	}
-console.log("HERE1");
-console.log(patient);
-	let updatePatient = {
-		firstName: patient.firstName.trim(),
-		lastName: patient.lastName.trim(),
-		date_of_birth: patient.date_of_birth,
-		race: patient.race,
-		sex: patient.sex,
-		medical_history: patient.medical_history,
-		medications: patient.medications,
-		suregon: patient.suregon,
-		sharedSuregon: sSuregon,
-	};
-console.log("HERE2");
-	let updated = await patientCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: updatePatient});
-	if(!updated){throw "could not update band"}
-	updated._id = updated._id.toString();
-console.log("HERE");
-	return updated.value;
-}
 
 
 // await connectToMongoDB()

@@ -1,10 +1,12 @@
 import { Router } from "express";
 
 import { doCreateUserWithEmailAndPassword, doSignOut, dosignInWithEmailAndPassword } from '../firebase/firebaseFunctions.js'
-import { getPatientById, getPatientsByBirthdate, getAllPatients, createPatient, editPatientNotes, editPatientSharedSuregon } from '../data/patients.js';
+import { getPatientById, getPatientsByBirthdate, getAllPatients,getAllPatientsFromDoctorPatientList, createPatient, editPatientNotes } from '../data/patients.js';
 
 import { dirname } from "path";
 import xss from 'xss';
+import { addPatientToDoctor, createDoctor, getDoctorByUserId } from "../data/doctor.js";
+import { log } from "console";
 
 // import { fileURLToPath } from "url";
 // const __filename = fileURLToPath(import.meta.url);
@@ -41,15 +43,8 @@ router.route("/signup").get(async (req, res) => {
 router.route("/signup").post(async (req, res) => {
   const userInfo = req.body;
 
-  if (
-    !userInfo ||
-    !userInfo.emailAddressInput ||
-    !userInfo.passwordInput ||
-    !userInfo.confirmPasswordInput | !userInfo.nameInput
-  ) {
-    return res
-      .status(400)
-      .render("signup", { title: "Sign Up", layout: "nonav", error: "Signup Failed!" });
+  if (!userInfo ||  !userInfo.emailAddressInput ||  !userInfo.passwordInput ||  !userInfo.confirmPasswordInput | !userInfo.nameInput) {
+    return res.status(400).render("signup", { title: "Sign Up", layout: "nonav", error: "Signup Failed!" });
   }
 
   if (userInfo.passwordInput != userInfo.confirmPasswordInput) {
@@ -65,21 +60,17 @@ router.route("/signup").post(async (req, res) => {
 
   let user;
   try {
-    user = await doCreateUserWithEmailAndPassword(
-      xss(userInfo.emailAddressInput),
-      xss(userInfo.passwordInput),
-      xss(userInfo.nameInput)
-    );
+    user = await doCreateUserWithEmailAndPassword(xss(userInfo.emailAddressInput),  xss(userInfo.passwordInput),  xss(userInfo.nameInput));
+		
   } catch (e) {
-    return res
-      .status(400)
-      .render("signup", { title: "Sign Up", layout: "nonav", error: String(e) });
+		console.log(e);
+    return res.status(400).render("signup", { title: "Sign Up", layout: "nonav", error: String(e) });
   }
 
   //set cookie
   req.session.user = { name: user.user.displayName, id: user.user.uid };
   req.session.loggedIn = true;
-
+	let doctor = await createDoctor(req.session.user.id.toString(), req.session.user.name, userInfo.emailAddressInput);
   //return homepage
   return res.redirect("/home");
 });
@@ -89,9 +80,7 @@ router.route("/login").post(async (req, res) => {
   console.log(userInfo);
 
   if (!userInfo || !userInfo.emailAddressInput || !userInfo.passwordInput) {
-    return res
-      .status(400)
-      .render("login", { title: "Login", layout: "nonav", error: "Login Failed!" });
+    return res.status(400).render("login", { title: "Login", layout: "nonav", error: "Login Failed!" });
   }
 
   if (req.session.loggedIn) {
@@ -101,14 +90,9 @@ router.route("/login").post(async (req, res) => {
 
   let user;
   try {
-    user = await dosignInWithEmailAndPassword(
-      xss(userInfo.emailAddressInput),
-      xss(userInfo.passwordInput)
-    );
+    user = await dosignInWithEmailAndPassword(xss(userInfo.emailAddressInput),  xss(userInfo.passwordInput));
   } catch (e) {
-    return res
-      .status(400)
-      .render("login", { title: "Login", error: String(e) });
+    return res.status(400).render("login", { title: "Login", error: String(e) });
   }
 
   //set cookie
@@ -138,14 +122,35 @@ router.route("/home").get(async (req, res) => {
   if (!req.session.loggedIn) {
     return res.redirect("/login");
   }
+	let myPatients = []
+	let sharedPatients = [];
+	try {
+		// console.log(req.session);
+		let doctor = await getDoctorByUserId(req.session.user.id.toString())
+		// console.log(doctor);
+		let myPatients = await getAllPatientsFromDoctorPatientList(doctor.patientList); //returns a list of patients
+		// console.log(myPatients);
+		return res.render("home", {
+			title: "Home",
+			error: "",
+			myPatients: myPatients,
+			sharedPatients: sharedPatients,
+			name: req.session.user.name,
+		});
+		
+	} catch (error) {
+		return res.render("home", {
+			title: "Home",
+			error: "No patients Found",
+			myPatients: [],
+			sharedPatients: sharedPatients,
+			name: req.session.user.name,
+		});
+	}
 
-  console.log(req.session.user);
+  //console.log(req.session.user);
   //return homepage
-  return res.render("home", {
-    title: "Home",
-    error: "",
-    name: req.session.user.name,
-  });
+
 });
 
 router.route("/profile").get(async (req, res) => {
@@ -161,7 +166,7 @@ router.route("/wireframe").get(async (req, res) => {
   if (!req.session.loggedIn) {
     return res.redirect("/login");
   }
-  console.log(req.session.user);
+  // console.log(req.session.user);
   //return wireframe
   return res.render("wireframe", { title: "Home", error: "" });
 });
@@ -172,7 +177,7 @@ router.route("/dataview").get(async (req, res) => {
       return res.redirect("/login");
     }
   
-    console.log(req.session.user);
+    // console.log(req.session.user);
     //return homepage
     return res.render("dataview", {
       title: "EEG Data View",
@@ -229,7 +234,7 @@ router.route('/patient/:id').get(async (req, res) => {
 
     let id = req.params.id
 
-    console.log(id)
+    // console.log(id)
 
     if(!id){
         return res.status(400).json({"error": "Must supply id"})
@@ -251,7 +256,7 @@ router.route('/patient/:id').get(async (req, res) => {
 
   let id = req.params.id
 
-  console.log(id)
+  // console.log(id)
 
   if(!id){
       return res.status(400).json({"error": "Must supply id"})
@@ -260,26 +265,28 @@ router.route('/patient/:id').get(async (req, res) => {
   let history = xss(req.body.medicalHistory)
   let medications = xss(req.body.medications)
   let notes = xss(req.body.notes)
-	let sharedSuregon = xss(req.body.sharedSuregon)
+  // console.log(req.body)
+try {
+	let patient;
+	// console.log(req.session);
+	console.log("DANIEL", req.session.user.id);
+	let doctor = await getDoctorByUserId(req.session.user.id.toString());
+	let doc1;
+	console.log("DAN HERE111111111");
 
-  console.log(req.body)
-
-  let patient
-	
-  try{
-
-    patient = await editPatientNotes(id, history, medications, notes)
-
-		patient = await editPatientSharedSuregon(
-			id,
-			sharedSuregon
-		);
-  }catch(e){
-    return res.status(500).json({"error": "Server error"})
-  }
+	patient = await editPatientNotes(id, history, medications, notes);
+	console.log(doctor);
+	console.log("H1EREERERE", doctor._id, "\n", patient._id);
+	console.log(patient);
+	doc1 = await addPatientToDoctor(doctor._id, patient._id);
+	console.log("DONE!");
+	return res.redirect("/patient/" + id);
+} catch (e) {
+	return res.status(500).json({ error: e });
+}
   
 
-  return res.redirect('/patient/'+id)
+  
 })
 
 router.route('/searchPatients').post(async (req, res) => {
@@ -288,7 +295,7 @@ router.route('/searchPatients').post(async (req, res) => {
     if(!req.session.loggedIn){
         return res.redirect('/login')
     }
-    console.log(req.body)
+    // console.log(req.body)
 
     let birthdate = xss(req.body.birthdate);
 

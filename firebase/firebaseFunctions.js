@@ -21,7 +21,6 @@ import { createDoctor} from "../data/doctor.js";
     const auth = getAuth();
     await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(auth.currentUser, { displayName: displayName });
-		await createDoctor(email, []);
 
     return dosignInWithEmailAndPassword(email, password)
   }
