@@ -6,6 +6,8 @@ import { connectToMongoDB, closeConnection, getDB } from './config/mongoConnecti
 async function main() {
     await connectToMongoDB();
 
+    
+
     try{
         let id = await createPatient("Test", "Person", "1/23/2013", "white", "M", "testing1", "medications");
 

@@ -344,6 +344,8 @@ $(function() {
       viewer.setClearColor(parseInt($(e.target).val(), 16));
     });
 
+    viewer.setClearColor(parseInt("0xffffff", 16));
+
     // Reset to the default view.
     $("#resetview").click(function() {
       // Setting the view to its current view type will
@@ -922,6 +924,23 @@ $(function() {
 
       div.find(".format-hint").html(BrainBrowser.config.get(config_base + "." + format).format_hint || "");
     });
+    //preload the model
+    // var format = "mniobj";
+    // $('#centric_rotation').prop('checked', false);
+    // viewer.model.userData.model_center_offset = undefined;
+    // //let defaultModel = open('')
+    // showLoading();
+    // viewer.loadModelFromFile('brainbrowser/examples/models/brain-surface.obj.gz', {
+    //   format: format,
+    //   complete: function() {
+    //     viewer.modelCentric();
+    //     $("#vertex-data-wrapper").show();
+    //     $("#pick-value-wrapper").show();
+    //     $("#pick-label-wrapper").show();
+    //     hideLoading();
+    //   }
+    // });
+
 
     // Load a new model from a file that the user has
     // selected.
@@ -930,6 +949,7 @@ $(function() {
       $('#centric_rotation').prop('checked', false);
       viewer.model.userData.model_center_offset = undefined;
       showLoading();
+      console.log(document.getElementById("objfile"))
       viewer.loadModelFromFile(document.getElementById("objfile"), {
         format: format,
         complete: function() {

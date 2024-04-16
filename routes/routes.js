@@ -316,11 +316,19 @@ router.route('/searchPatients').post(async (req, res) => {
 
 //stuff so the brain works
 router.route("/color-maps/spectral.txt").get(async (req, res) => {
-  res.sendFile('color-maps/spectral.txt.gz',  {root : __dirname})
+  res.sendFile('color-maps/spectral.txt',  {root : __dirname})
 });
 
 router.route("/models/brain-surface.obj").get(async (req, res) => {
-  res.sendFile('models/brain-surface.obj.gz',  {root : __dirname})
+  res.sendFile('models/brain-surface.obj',  {root : __dirname})
+});
+
+router.route("/models/atlas-labels.txt").get(async (req, res) => {
+  res.sendFile('models/atlas-labels.txt',  {root : __dirname})
+});
+
+router.route("/patient/models/cortical-thickness.txt").get(async (req, res) => {
+  res.sendFile('models/cortical-thickness.txt',  {root : __dirname})
 });
 
 // router.route("/").get(async (req, res) => {
