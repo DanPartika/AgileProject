@@ -75,12 +75,15 @@
     </div>
 
     <button id="loadData">Load Brain Model</button>
+    <div id="chartContainer" data-eeg="{{eegData}}"style="height: 300px; width: 100%;"></div>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
 
     <div id="brainContain">
     <div id="display">
       <a id="control-button" class="button">Hide Controls</a>
       <div id="vertex-data-wrapper">
-        <div hidden id="vertex-data">
+        <div id="vertex-data">
           <h3>Select a point on the surface<BR>(shift-click)</h3>
           <div>X: <span id="pick-x" class="pick-data"></span></div>
           <div>Y: <span id="pick-y" class="pick-data"></span></div>

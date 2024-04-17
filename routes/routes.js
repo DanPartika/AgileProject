@@ -14,6 +14,16 @@ let __dirname = dirname('./brainbrowser/examples');
 __dirname += '/examples'
 
 
+var sampleData
+
+import fs from "fs";
+import { read as readmat } from "mat-for-js";
+
+fs.readFile("sampleData.mat", null, (err, data) => {
+    sampleData = readmat(data.buffer);
+    console.log(sampleData);
+});
+
 const router = Router();
 
 router.route("/").get(async (req, res) => {
@@ -247,7 +257,7 @@ router.route('/patient/:id').get(async (req, res) => {
         return res.status(404).json({"error": e})
     }
 		// console.log(patient);
-    return res.render("patientPage", {patientData: patient});
+    return res.render("patientPage", {patientData: patient, }); //eegData: sampleData.data.data
 
 }).post(async (req, res) => { 
   if(!req.session.loggedIn){
