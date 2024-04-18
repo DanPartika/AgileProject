@@ -6,7 +6,8 @@ import { getPatientById, getPatientsByBirthdate, getAllPatients,getAllPatientsFr
 import { dirname } from "path";
 import xss from 'xss';
 import { addPatientToDoctor, createDoctor, getDoctorByUserId } from "../data/doctor.js";
-import { log } from "console";
+import {getData as getEEGData, getStim as getEEGStim} from "../data/eeg.js";
+
 
 // import { fileURLToPath } from "url";
 // const __filename = fileURLToPath(import.meta.url);
@@ -186,6 +187,29 @@ router.route("/dataview").get(async (req, res) => {
     });
   });
 
+router.route("/dataview/:patient").get(async (req, res) => {
+    if(!req.session.loggedIn) {
+      return res.redirect("/login");
+    }
+
+    console.log("patient: ", req.params.patient)
+
+    let dump_json = {}
+    let data = await getEEGData(req.params.patient)
+    let stim = await getEEGStim(req.params.patient)
+
+    console.log("data: ", data)
+    console.log("stim: ", stim)
+
+    /*
+    for(let i = 0; i < stim.length; i++){
+      let label = `instance_${i}`
+      dump_json[label] = {"stim": stim[i], "eeg_data": data[i]}
+    }
+    */
+   
+    return dump_json
+})
 
 router.route("/patients/:sort").get(async (req, res) => {
 
