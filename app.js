@@ -36,8 +36,11 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
 };
 
 app.use(express.json());
+
+const port = process.env.PORT || 3000;
+
 const corsOptions ={
-  origin:'http://localhost:3000', 
+  origin:`http://localhost:${port}`, 
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200
 }
@@ -75,6 +78,6 @@ configRoutes(app);
 
 main();
 
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
 });
