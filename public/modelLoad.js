@@ -21,19 +21,30 @@ function randomArray(length){
 }
 
 window.onload = function() {
-    let elems = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    let elems = [...Array(50).keys()]
 
     var dataBrain = {}
 
-    elems.map(x=>{dataBrain[x] = {}; dataBrain[x].data = randomArray(100); dataBrain[x].vals = []})
+    elems.map(x=>{dataBrain[x] = {}; dataBrain[x].data = []; dataBrain[x].vals = []})
 
-    //onsole.log($('#chartContainer').attr("data-eeg"))
-    console.log(dataBrain)
+
+    let dataRAW = $('#chartContainer').attr("data-eeg")
+    let data = JSON.parse(dataRAW)
+
+
+    numRecordings = data.length
+
+    for(let i = 0; i < numRecordings; i++){
+        for(let j = 0; j < data[0].length; j++){
+            dataBrain[j].data.push(data[i][j])
+        }
+    }
+
     
     var chart = new CanvasJS.Chart("chartContainer", {
         theme: "light2",
         title: {
-            text: "Simulated EEG Data"
+            text: "EEG Data"
         },
         data: elems.map(x=>{return{
             type: "line",
@@ -62,6 +73,9 @@ window.onload = function() {
 
         for(let j = 0; j < elems.length; j++){
             dataBrain[j].vals.push({x: xValue, y: dataBrain[j].data[xValue]})
+            if(xValue > 250){
+                dataBrain[j].vals.shift()
+            }
             averageResponse += dataBrain[j].data[xValue]
         }
         
@@ -77,7 +91,7 @@ window.onload = function() {
         
         newDataCount = 1;
         chart.render();
-        setTimeout(updateData, 1000);
+        setTimeout(updateData, 100);
     }
     
     function updateData() {

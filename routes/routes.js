@@ -19,8 +19,8 @@ var sampleData
 import fs from "fs";
 import { read as readmat } from "mat-for-js";
 
-fs.readFile("sampleData.mat", null, (err, data) => {
-    sampleData = readmat(data.buffer);
+fs.readFile("testDataFormatted.json", null, (err, data) => {
+    sampleData = data //JSON.parse(data);
     console.log(sampleData);
 });
 
@@ -257,7 +257,7 @@ router.route('/patient/:id').get(async (req, res) => {
         return res.status(404).json({"error": e})
     }
 		// console.log(patient);
-    return res.render("patientPage", {patientData: patient, }); //eegData: sampleData.data.data
+    return res.render("patientPage", {patientData: patient, eegData: sampleData}); //
 
 }).post(async (req, res) => { 
   if(!req.session.loggedIn){
