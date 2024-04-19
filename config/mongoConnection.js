@@ -1,5 +1,6 @@
 import { MongoClient } from 'mongodb';
-import settings from './settings.json' assert { type: 'json' };
+import settings from './settings.json';
+//assert { type: 'json' };
 
 // MongoDB Atlas connection string
 const uri = settings.mongoURI;
