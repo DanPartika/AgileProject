@@ -11,8 +11,13 @@ let _db;
 let _client;
 
 export async function connectToMongoDB() {
-    _client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    
+    try{
+        _client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    }
+    catch{
+        uri = "mongodb://127.0.0.1:27017"
+        _client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    }
     try {
         // Connect to the MongoDB cluster
         await _client.connect();
