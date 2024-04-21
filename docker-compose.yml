@@ -3,7 +3,7 @@ version: "3"
 services:
  #MongoDb
   mongodb:
-    container_name: "mongo_container"
+    container_name: "mongo"
     image: mongo:latest
     restart: always
     volumes:
@@ -12,9 +12,12 @@ services:
   web:
     build: .
     ports: 
-      - 3000
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - DB_URI:mongodb://mongodb:27017
     depends_on:
       - mongodb
 
 volumes:
-  mongodb: 
+  mongodb: {}

@@ -37,7 +37,9 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
 
 app.use(express.json());
 
-const port = process.env.PORT || 3000;
+console.log("PORT: ", process.env.PORT)
+
+const port = process.env.PORT || 8080;
 
 const corsOptions ={
   origin:`http://localhost:${port}`, 

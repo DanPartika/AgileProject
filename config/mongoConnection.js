@@ -1,6 +1,8 @@
 import { MongoClient } from 'mongodb';
-import settings from './settings.json';
-//assert { type: 'json' };
+const settings = {
+    "mongoURI": "mongodb://mongodb:27017",
+    "dbName": "Agile555Project1"
+}
 
 // MongoDB Atlas connection string
 const uri = settings.mongoURI;
