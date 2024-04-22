@@ -81,9 +81,9 @@ window.onload = function() {
         
         averageResponse/=elems.length
 
-        $('#data-range-max').val(averageResponse*50)
-        // $('#clamp_range').val(true)
-        $('#clamp_range').prop("checked", !$('#clamp_range').prop("checked"))
+        // $('#data-range-max').val(averageResponse*50)
+        // // $('#clamp_range').val(true)
+        // $('#clamp_range').prop("checked", !$('#clamp_range').prop("checked"))
         
             
         xValue++;

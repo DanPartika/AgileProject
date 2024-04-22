@@ -281,7 +281,7 @@ router.route('/patient/:id').get(async (req, res) => {
         return res.status(404).json({"error": e})
     }
 		// console.log(patient);
-    return res.render("patientPage", {patientData: patient, eegData: sampleData}); //
+    return res.render("patientPage", {patientData: patient, eegData: sampleData, title: patient.lastName + ", " + patient.firstName}); //
 
 }).post(async (req, res) => { 
   if(!req.session.loggedIn){

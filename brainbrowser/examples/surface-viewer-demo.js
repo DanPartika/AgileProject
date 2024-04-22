@@ -184,7 +184,7 @@ $(function() {
 
       container.html(headers + controls + "</div>");
       $("#data-range-box").show();
-      $("#color-map-box").show();
+      // $("#color-map-box").show();
       container.find("#data-range-multiple").tabs();
 
       container.find(".range-controls").each(function(index) {
