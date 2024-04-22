@@ -44,6 +44,7 @@ async function main() {
             editPatientData(db, "None", "None", "Patient follows a vegetarian diet.")
             editPatientData(jm, "Rheumatoid arthritis, Hypothyroidism", "Methotrexate, Levothyroxine", "Patient is pregnant, due in June.")
 
+
         }catch(e){
             console.log(e);
         }

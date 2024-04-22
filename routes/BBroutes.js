@@ -118,7 +118,7 @@ router.route("/css/ui-darkness/images/ui-bg_glass_20_555555_1x400.png.js").get(a
 });
 
 router.route("/models/atlas-labels.txt").get(async (req, res) => {
-    res.sendFile('models/atlas-labels.txt',  {root : __dirname})
+    res.sendFile('models/atlas-labels.txt.gz',  {root : __dirname})
 });
 
 
