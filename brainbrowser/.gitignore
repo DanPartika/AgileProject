@@ -6,11 +6,4 @@ log/*
 tmp
 node_modules
 docs/docular
-examples/color-maps/*.txt
-examples/models/*.txt
-examples/models/*.obj
-examples/models/*.asc
-examples/models/*.header
-examples/models/*.headers
-examples/models/*.raw
-examples/models/*.json
+
