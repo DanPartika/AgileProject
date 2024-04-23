@@ -1,5 +1,5 @@
 
-import { createPatient, editPatientData, getPatientsByBirthdate } from "./data/patients.js";
+import { createPatient, editPatientData, getPatientsByBirthdate, editPatientNotes } from "./data/patients.js";
 import { connectToMongoDB, closeConnection, getDB } from './config/mongoConnection.js';
 
 /*
@@ -38,11 +38,11 @@ async function main() {
             let db = await createPatient("David", "Brown", "7/8/1987", "Asian", "M", "None", "None");
             let jm = await createPatient("Jennifer", "Martinez", "5/12/1968", "African American", "F", "Rheumatoid arthritis, Hypothyroidism", "Methotrexate, Levothyroxine");
 
-            editPatientNotes(js, "Hypertension, Diabetes type 2", "Lisinopril, Metformin", "Allergic to penicillin.")
-            editPatientNotes(ml, "High cholesterol, GERD", "Atorvastatin, Omeprazole", "Patient is a smoker, advised to quit.")
-            editPatientData(sg, "Depression, Anxiety", "Sertraline, Clonazepam", "Patient mentions occasional anxiety attacks.")
-            editPatientData(db, "None", "None", "Patient follows a vegetarian diet.")
-            editPatientData(jm, "Rheumatoid arthritis, Hypothyroidism", "Methotrexate, Levothyroxine", "Patient is pregnant, due in June.")
+            await editPatientNotes(js, "Hypertension, Diabetes type 2", "Lisinopril, Metformin", "Allergic to penicillin.")
+            await editPatientNotes(ml, "High cholesterol, GERD", "Atorvastatin, Omeprazole", "Patient is a smoker, advised to quit.")
+            await editPatientNotes(sg, "Depression, Anxiety", "Sertraline, Clonazepam", "Patient mentions occasional anxiety attacks.")
+            await editPatientNotes(db, "None", "None", "Patient follows a vegetarian diet.")
+            await editPatientNotes(jm, "Rheumatoid arthritis, Hypothyroidism", "Methotrexate, Levothyroxine", "Patient is pregnant, due in June.")
 
 
         }catch(e){
