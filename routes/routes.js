@@ -41,6 +41,35 @@ router.route("/login").get(async (req, res) => {
   return res.render("login", { title: "Login", layout: "nonav", error: "" });
 });
 
+router.route("/login").post(async (req, res) => {
+  const userInfo = req.body;
+  console.log(userInfo);
+
+  if (!userInfo || !userInfo.emailAddressInput || !userInfo.passwordInput) {
+    return res.status(400).render("login", { title: "Login", layout: "nonav", error: "Login Failed!" });
+  }
+
+  if (req.session.loggedIn) {
+    //make sure no cookie
+    return res.redirect("/home");
+  }
+
+  let user;
+  try {
+    user = await dosignInWithEmailAndPassword(xss(userInfo.emailAddressInput),  xss(userInfo.passwordInput));
+  } catch (e) {
+    return res.status(400).render("login", { title: "Login", error: String(e) });
+  }
+
+  //set cookie
+
+  req.session.user = { name: user.user.displayName, id: user.user.uid };
+  req.session.loggedIn = true;
+
+  //return homepage
+  return res.redirect("/home");
+});
+
 router.route("/signup").get(async (req, res) => {
   //make sure no cookie
   if (req.session.loggedIn) {
@@ -86,34 +115,7 @@ router.route("/signup").post(async (req, res) => {
   return res.redirect("/home");
 });
 
-router.route("/login").post(async (req, res) => {
-  const userInfo = req.body;
-  console.log(userInfo);
 
-  if (!userInfo || !userInfo.emailAddressInput || !userInfo.passwordInput) {
-    return res.status(400).render("login", { title: "Login", layout: "nonav", error: "Login Failed!" });
-  }
-
-  if (req.session.loggedIn) {
-    //make sure no cookie
-    return res.redirect("/home");
-  }
-
-  let user;
-  try {
-    user = await dosignInWithEmailAndPassword(xss(userInfo.emailAddressInput),  xss(userInfo.passwordInput));
-  } catch (e) {
-    return res.status(400).render("login", { title: "Login", error: String(e) });
-  }
-
-  //set cookie
-
-  req.session.user = { name: user.user.displayName, id: user.user.uid };
-  req.session.loggedIn = true;
-
-  //return homepage
-  return res.redirect("/home");
-});
 
 router.route("/logout").get(async (req, res) => {
   //make sure cookie
@@ -182,45 +184,6 @@ router.route("/wireframe").get(async (req, res) => {
   return res.render("wireframe", { title: "Home", error: "" });
 });
 
-router.route("/dataview").get(async (req, res) => {
-    //make sure  cookie
-    if (!req.session.loggedIn) {
-      return res.redirect("/login");
-    }
-  
-    // console.log(req.session.user);
-    //return homepage
-    return res.render("dataview", {
-      title: "EEG Data View",
-      error: "",
-      name: req.session.user.name,
-    });
-  });
-
-router.route("/dataview/:patient").get(async (req, res) => {
-    if(!req.session.loggedIn) {
-      return res.redirect("/login");
-    }
-
-    console.log("patient: ", req.params.patient)
-
-    let dump_json = {}
-    let data = await getEEGData(req.params.patient)
-    let stim = await getEEGStim(req.params.patient)
-
-    console.log("data: ", data)
-    console.log("stim: ", stim)
-
-    /*
-    for(let i = 0; i < stim.length; i++){
-      let label = `instance_${i}`
-      dump_json[label] = {"stim": stim[i], "eeg_data": data[i]}
-    }
-    */
-   
-    return dump_json
-})
-
 router.route("/patients/:sort").get(async (req, res) => {
 
   const validFlags = ["firstName", "lastName", "date_of_birth", "medications"]
@@ -252,6 +215,10 @@ router.route("/patients/:sort").get(async (req, res) => {
 //Does the same thing as the above route but without sorting
 router.route("/patients").get(async (req, res) => {
 
+  if (!req.session.loggedIn) {
+    return res.redirect("/login");
+  }
+  
   let patients = await getAllPatients();
 
   return res.render("patients", {
