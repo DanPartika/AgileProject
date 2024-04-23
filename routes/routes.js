@@ -171,7 +171,7 @@ router.route("/profile").get(async (req, res) => {
     return res.redirect("/login");
   }
 
-  return res.render("profile", {name:req.session.user.name, user_title:"PLACE HOLDER", birthdate:"PLACE HOLDER", patients:["PLACE HOLDER"], surgeries:[{type:"EXAMPLE TYPE", date:"EXAMPLE DATE"}]})
+  return res.render("profile", {name:req.session.user.name, user_title:"Dr. ", patients:["PLACE HOLDER"], surgeries:[{type:"EXAMPLE TYPE", date:"EXAMPLE DATE"}]})
 })
 
 router.route("/wireframe").get(async (req, res) => {
