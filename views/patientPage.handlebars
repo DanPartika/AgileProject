@@ -42,39 +42,51 @@
   Author: Nicolas Kassis
 -->
 
-<html lang="en">
-  <head>
+<body>
+
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <link type="text/css" href="../bb/css/ui-darkness/jquery-ui-1.8.10.custom.css" rel="Stylesheet" />
     <link type="text/css" href="../bb/css/common.css" rel="Stylesheet" />
     <link type="text/css" href="../bb/css/surface-viewer-demo.css" rel="Stylesheet" />
     <title>BrainBrowser Surface Viewer</title>
-  </head>
-  <body>
-    <div id="patientData">
+
+  
+  <div class="flex-container">
+    <div id="patientInfo">
       <h1>{{patientData.lastName}}, {{patientData.firstName}}</h1>
-      <p>Date of birth: {{patientData.date_of_birth}}</p>
-      <p>Race: {{patientData.race}}</p>
-      <p>Sex: {{patientData.sex}}</p>
-      <form method="post">
-        <label for="medicalHistory">Medical History</label>
-        <br>
-        <textarea class="patient-notes" name="medicalHistory" id="medicalHistory">{{patientData.medical_history}}</textarea>
-        <br>
-        <label for="medications">Medications</label>
-        <br>
-        <textarea class="patient-notes" name="medications" id="medications">{{patientData.medications}}</textarea>
-        <br>
-        <label for="notes">Notes</label>
-        <br>
-        <textarea class="patient-notes" name="notes" id="notes">{{patientData.notes}}</textarea>
-        <br>
-				<button type="submit">Save and add patient to My Patients</button>
-      </form>
+      <div id="patientData">
+        <p>Date of birth: {{patientData.date_of_birth}}</p>
+        <p>Race: {{patientData.race}}</p>
+        <p>Sex: {{patientData.sex}}</p>
+        <form method="post">
+          <label for="medicalHistory">Medical History</label>
+          <br>
+          <textarea class="patient-notes" name="medicalHistory" id="medicalHistory">{{patientData.medical_history}}</textarea>
+          <br>
+          <label for="medications">Medications</label>
+          <br>
+          <textarea class="patient-notes" name="medications" id="medications">{{patientData.medications}}</textarea>
+          <br>
+          <label for="notes">Notes</label>
+          <br>
+          <textarea class="patient-notes" name="notes" id="notes">{{patientData.notes}}</textarea>
+          <br>
+          <button type="submit">Save and add patient to My Patients</button>
+        </form>
+        <button id="loadData">Load Brain Model</button>
+      </div>
+      
     </div>
 
+    
+    
 
+    <div id="brainContain">
+      <div id="chartContainer" data-eeg="{{eegData}}"style="height: 30%; width: 100%;">
+        <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+        <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
+      </div>
     <div id="display">
       <a id="control-button" class="button">Hide Controls</a>
       <div id="vertex-data-wrapper">
@@ -119,29 +131,22 @@
       <div id="brainbrowser"></div>
       <div id="controls">
         <div id="controls-content">
-          <div id="examples" class="box full_box">
+          <div hidden id="examples" class="box full_box">
             <h3>Sample Models</h3>
             <ul>
-              <li><a href="#" class="example" data-example-name="atlas">Brain Atlas</a> (81924 vertices)</li>
-              <li><a href="#" class="example" data-example-name="cortical_thickness">Brain with Cortical Thickness Map</a> (81924 vertices)</li>
-              <li><a href="#" class="example" data-example-name="blend">Blend</a> (81924 vertices)</li>
-              <li><a href="#" class="example" data-example-name="dti">DTI and Mesh Brain</a> (560674 vertices)</li>
-              <li><a href="#" class="example" data-example-name="dbs">JSON Deep Brain Stimulation</a> (47050 vertices)</li>
-              <li><a href="#" class="example" data-example-name="freesurferbin">Freesurfer binary Left Hemisphere</a> (163842 vertices)</li>
-              <li><a href="#" class="example" data-example-name="freesurferasc">Freesurfer ASC Left Hemisphere</a> (137720 vertices)</li>
-              <li><a href="#" class="example" data-example-name="car">Wavefront OBJ Automobile</a> (29795 vertices)</li>
+              <li><a href="#" class="example" id="firstClick" data-example-name="cortical_thickness">Brain with Cortical Thickness Map</a> (81924 vertices)</li>
             </ul>
           </div>
           <div id="paint-controls" class="box full_box">
             Paint value (ctrl-click to paint): <input id="paint-value" size="5">
             <span id="paint-color"></span>
           </div>
-          <div id="surface_choice" class="box full_box">
+          <div hidden id="surface_choice" class="box full_box">
             <h4>Load your own data!</h4>
             <p>
               (Note: your data will remain on your computer and will not be transferred to the BrainBrowser server.)
             </p>
-              <div id="obj_file_select" class="file-select">
+              <div hidden id="obj_file_select" class="file-select">
                 Object File:
                 <input type="file" name="objfile" id="objfile"><br>
                 Format:
@@ -158,7 +163,7 @@
                   <span id="obj_file_submit" class="button">Load</span><br>
                 </div>
               </div>
-              <div id="data-file-select" class="file-select">
+              <div hidden id="data-file-select" class="file-select">
                 Per-vertex data: <input type="file" name="datafile" id="datafile" class="datafile"><br>
                 Format:
                 <select  id="data-file-format" class="file-format" name="format">
@@ -167,17 +172,17 @@
                   <option value="freesurferasc">Freesurfer ASC</option>
                   <option value="gifti">GIFTI</option>
                 </select><br>
-                <div class="format-hint"></div>
-                <div id="data-submit-div" class="file-submit-div">
+                <div hidden class="format-hint"></div>
+                <div hidden id="data-submit-div" class="file-submit-div">
                   <span id="data-submit" class="button">Load</span><br>
                 </div>
               </div>
-              <div>
+              <div hidden >
                 Color Map: <input type="file" name="color-map" id="color-map"><br />
               </div>
               <span id="clearshapes" class="button">Clear Shapes</span>
           </div>
-          <div id="color-map-box" class="box full_box">
+          <div hidden id="color-map-box" class="box full_box">
             Color Map:
           </div>
           <div id="data-range-box" class="box full_box">
@@ -186,20 +191,7 @@
             </div>
             <div id="blend-box"></div>
           </div>
-          <div id="background_select" class="box full_box">
-            <h4>Background Color:</h4>
-            <select id="clear_color">
-              <option value="0x000000">Black</option>
-              <option value="0x888888">Gray</option>
-              <option value="0xffffff">White</option>
-              <option value="0xff0000">Red</option>
-              <option value="0x00ff00">Green</option>
-              <option value="0x0000ff">Blue</option>
-              <option value="0x00ffff">Cyan</option>
-              <option value="0xff00ff">Magenta</option>
-              <option value="0xffff00">Yellow</option>
-            </select>
-          </div>
+          
           <div class="combo_box">
             <div id="views" class="box half_box" >
               <h4>Views:</h4>
@@ -251,8 +243,11 @@
         </div>
       </div>
     </div>
+    </div>
 
     <!-- all the scripts -->
+
+    <script src="/public/modelLoad.js"></script>
     <script src="../bb/js/jquery-1.6.4.min.js"></script>
     <script src="../bb/js/jquery-ui-1.8.10.custom.min.js"></script>
     <script src="../bb/js/ui.js"></script>
@@ -275,5 +270,5 @@
     <script src="../bb/surface-viewer-demo.config.js"></script>
     <script src="../bb/js/AnaglyphEffect.js"></script>
     <script src="../bb/surface-viewer-demo.js"></script>
+    </div>
   </body>
-</html>

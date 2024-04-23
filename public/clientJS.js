@@ -37,3 +37,4 @@ $('#patientSearchForm').on('submit', async (e)=>{
         
     }
 })
+

@@ -384,7 +384,8 @@ div#format-hints {
 #vertex-data-wrapper {
   position: absolute;
   left: 15px;
-  top: 145px;
+  top: 15px;
+  max-height: 50%;
   padding: 5px;
   background-color: transparent;
   z-index: 9;
