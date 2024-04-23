@@ -5,7 +5,7 @@ const settings = {
 }
 
 // MongoDB Atlas connection string
-const uri = settings.mongoURI;
+let uri = settings.mongoURI;
 
 let _db;
 let _client;
@@ -13,10 +13,10 @@ let _client;
 export async function connectToMongoDB() {
     try{
         _client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("This worked!")
     }
-    catch{
-        uri = "mongodb://127.0.0.1:27017"
-        _client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    catch (err) {
+       console.log(err)
     }
     try {
         // Connect to the MongoDB cluster
@@ -24,9 +24,24 @@ export async function connectToMongoDB() {
 
         console.log('Connected to MongoDB Atlas!');
         _db = _client.db(settings.dbName);
+        console.log("And This!")
 
-    } catch (error) {
-        console.error('Error connecting to MongoDB Atlas', error);
+    } 
+    catch{ 
+        try {
+            uri = "mongodb://127.0.0.1:27017"
+            console.log("URI: ", uri)
+            _client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+            console.log("Mongo Running Locally")
+
+            await _client.connect();
+
+            console.log('Connected to MongoDB Atlas!');
+            _db = _client.db(settings.dbName);
+        }
+        catch (error) {
+            console.error('Error connecting to MongoDB Atlas', error);
+        }
     }
 }
 

@@ -6,7 +6,8 @@
 	"type": "module",
 	"scripts": {
 		"test": "mocha './test.js'",
-		"start": "node app.js"
+		"start": "node app.js",
+		"seed": "node seed.js"
 	},
 	"repository": {
 		"type": "git",

@@ -39,7 +39,7 @@ app.use(express.json());
 
 console.log("PORT: ", process.env.PORT)
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 const corsOptions ={
   origin:`http://localhost:${port}`, 

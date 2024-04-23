@@ -1,5 +1,5 @@
 
-import { createPatient, editPatientData, getPatientsByBirthdate } from "./data/patients.js";
+import { createPatient, editPatientData, editPatientNotes, getPatientsByBirthdate } from "./data/patients.js";
 import { connectToMongoDB, closeConnection, getDB } from './config/mongoConnection.js';
 
 /*
