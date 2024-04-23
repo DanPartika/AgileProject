@@ -182,45 +182,6 @@ router.route("/wireframe").get(async (req, res) => {
   return res.render("wireframe", { title: "Home", error: "" });
 });
 
-router.route("/dataview").get(async (req, res) => {
-    //make sure  cookie
-    if (!req.session.loggedIn) {
-      return res.redirect("/login");
-    }
-  
-    // console.log(req.session.user);
-    //return homepage
-    return res.render("dataview", {
-      title: "EEG Data View",
-      error: "",
-      name: req.session.user.name,
-    });
-  });
-
-router.route("/dataview/:patient").get(async (req, res) => {
-    if(!req.session.loggedIn) {
-      return res.redirect("/login");
-    }
-
-    console.log("patient: ", req.params.patient)
-
-    let dump_json = {}
-    let data = await getEEGData(req.params.patient)
-    let stim = await getEEGStim(req.params.patient)
-
-    console.log("data: ", data)
-    console.log("stim: ", stim)
-
-    /*
-    for(let i = 0; i < stim.length; i++){
-      let label = `instance_${i}`
-      dump_json[label] = {"stim": stim[i], "eeg_data": data[i]}
-    }
-    */
-   
-    return dump_json
-})
-
 router.route("/patients/:sort").get(async (req, res) => {
 
   const validFlags = ["firstName", "lastName", "date_of_birth", "medications"]
