@@ -4,7 +4,7 @@ import { firebaseApp } from "./firebase/firebaseConfig.js";
 import { connectToMongoDB } from "./config/mongoConnection.js";
 
 
-import { createPatient, getPatientsByBirthdate } from "./data/patients.js";
+import { createPatient, getPatientsByBirthdate, editPatientNotes, getPatientById } from "./data/patients.js";
 
 let testingCreate = async () => {
     await describe("Create User", async () => {
@@ -140,8 +140,38 @@ let testingPatientData = async () => {
     
         });
       });
+
+      describe('Edit Patient Notes', function () {
+        it('should update patient notes successfully', async function () {
+            // Create a patient
+            const patient = await createPatient("Patient", "One", "1/1/2000", "White", "M", "medical history", "medications");
+            // Edit patient notes
+            const updatedPatient = await editPatientNotes(patient, "Updated medical history", "Updated medications", "New notes");
+            // Retrieve the patient again
+            const retrievedPatient = await getPatientById(patient);
+            // Check if notes are updated
+            assert.strictEqual(retrievedPatient.medical_history, "Updated medical history");
+            assert.strictEqual(retrievedPatient.medications, "Updated medications");
+            assert.strictEqual(retrievedPatient.notes, "New notes");
+        });
+    
+        it('should throw an error if patient ID is invalid', async function () {
+            let error = null;
+            try {
+                // Attempt to edit patient notes with an invalid ID
+                await editPatientNotes("invalid_id", "Updated medical history", "Updated medications", "New notes");
+            } catch (e) {
+                error = e;
+            }
+            assert.notStrictEqual(error, null);
+        });
+    });
+
 }
 
+let testingDocData = async () => {
+
+}
 //await testingPatientData()
 // await testingCreate()
-// await testingLogin()
+ //await testingLogin()

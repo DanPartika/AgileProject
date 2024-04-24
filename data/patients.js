@@ -22,7 +22,7 @@ const validatePatientArgs = (VARS, VAR_NAMES) =>{
 const validateDateOfBirth = (date_of_birth) => {
   date_of_birth = new Date(date_of_birth)
   if(date_of_birth > new Date()){
-    throw "Invalid Date of Birth"
+    throw new Error("Invalid Date of Birth");
   }
   return date_of_birth
 }
@@ -79,7 +79,7 @@ export const editPatientNotes = async(
 
   
   let update = await patientCollection.findOneAndUpdate({_id: new ObjectId(id)}, {$set: updated});
-    if(!update) throw "could not update patient"
+    if(!update) throw new Error("could not update patient");
     update._id = update._id.toString();
 
 	return update;
@@ -105,7 +105,7 @@ export const editPatientData= async (
     let patient = await patientCollection.findOne({_id: new ObjectId(id)})
 
     if(!patient){
-        throw "Patient does not exist"
+        throw new Error("Patient does not exist");
     }
 
     let updatePatient = {
@@ -131,27 +131,15 @@ export const editPatientData= async (
 
 export async function getPatientById(id){
   let patientCollection = await patients();
-  console.log(id)
   let patient = await patientCollection.findOne({_id: new ObjectId(id)})
-  console.log(patient)
   if(!patient){
-    throw "Could not find patient"
+    throw new Error("Could not find patient");
   }
 
   patient._id = patient._id.toString()
   return patient
 }
 
-// export async function getAllPatients(){
-//   let patientCollection = await patients();
-//   let patient = await patientCollection.find({})
-//   if(!patient){
-//     throw "Could not find patients"
-//   }
-
-//   patient._id = patient._id.toString()
-//   return patient
-// }
 
 export async function getAllPatientsFromDoctorPatientList(patList) {
 	if (patList.length == 0) return []
