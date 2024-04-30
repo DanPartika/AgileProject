@@ -17,6 +17,11 @@
 		</li>
 		
 		<h2>Shared Patients</h2>
+		<li>
+			{{#each sharedPatients}}
+				<a href="/patient/{{this._id}}">{{this.lastName}}, {{this.firstName}}</a>
+			{{/each}}
+		</li>
     <script
       src="https://code.jquery.com/jquery-3.5.1.js"
       integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
