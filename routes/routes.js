@@ -142,6 +142,7 @@ router.route("/home").get(async (req, res) => {
 		let doctor = await getDoctorByUserId(req.session.user.id.toString())
 		// console.log(doctor);
 		let myPatients = await getAllPatientsFromDoctorPatientList(doctor.patientList); //returns a list of patients
+		let sharedPatients = await getAllPatientsFromDoctorPatientList(doctor.sharedPatientList)
 		// console.log(myPatients);
 		return res.render("home", {
 			title: "Home",
