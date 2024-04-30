@@ -8,15 +8,15 @@
             <h3>Patients:</h3>
 
             <ul>
-            {{#each Patients}}
+            {{#each patients}}
                 <li>
-                    {{Patients.name}}
+                    {{this.firstName}} {{this.lastName}}
                 </li>
             {{/each}}
             </ul>
         </div>
 
-        <div id="surgeries-list">
+        {{!-- <div id="surgeries-list">
             <h3>Upcoming surgeries:</h3>
             <ul>
             {{#each surgeries}}
@@ -25,6 +25,6 @@
                 </li>
             {{/each}}
             </ul>
-        </div>
+        </div> --}}
     </div>
 </main>

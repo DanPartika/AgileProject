@@ -48,7 +48,7 @@ window.onload = function() {
         },
         data: elems.map(x=>{return{
             type: "line",
-            dataPoints: dataBrain[x].vals
+            dataPoints: dataBrain[x].vals,
         }})
         // [
         // {
@@ -72,7 +72,7 @@ window.onload = function() {
         let averageResponse = 0
 
         for(let j = 0; j < elems.length; j++){
-            dataBrain[j].vals.push({x: xValue, y: dataBrain[j].data[xValue]})
+            dataBrain[j].vals.push({x: xValue, y: dataBrain[j].data[xValue], label:String(j)})
             if(xValue > 250){
                 dataBrain[j].vals.shift()
             }

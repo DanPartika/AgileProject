@@ -171,7 +171,18 @@ router.route("/profile").get(async (req, res) => {
     return res.redirect("/login");
   }
 
-  return res.render("profile", {name:req.session.user.name, user_title:"Dr. ", patients:["PLACE HOLDER"], surgeries:[{type:"EXAMPLE TYPE", date:"EXAMPLE DATE"}]})
+  let doctor
+  let myPatients
+  try{
+    doctor = await getDoctorByUserId(req.session.user.id.toString())
+    myPatients = await getAllPatientsFromDoctorPatientList(doctor.patientList);
+    console.log(myPatients)
+    return res.render("profile", {name:req.session.user.name, user_title:"Dr. ", patients:myPatients, surgeries:[{type:"EXAMPLE TYPE", date:"EXAMPLE DATE"}]})
+  }catch(e){
+    return res.render("profile", {name:req.session.user.name, user_title:"Dr. ", patients:myPatients, surgeries:[{type:"EXAMPLE TYPE", date:"EXAMPLE DATE"}]})
+  }
+
+  
 })
 
 router.route("/wireframe").get(async (req, res) => {
